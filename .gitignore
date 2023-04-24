@@ -1,16 +1,3 @@
-# Prepare the folders
-# Ignore everything in \Packs
-Content/Packs/**
-# Un-ignore all sub-folders in \Packs, but not files (this is necessary for paths in un-ignores to work correctly)
-!Content/Packs/**/
-# Actual entries
-# Un-ignore a file
-!Content/Packs/PackName/FileName.ext
-# Un-ignore all files in a sub-folder
-!Content/Packs/PackName/SubFolder/*
-# Un-ignore all files and sub-folders in a sub-folder
-!Content/Packs/PackName/SubFolder/**
-
 # Visual Studio 2015 user specific files
 .vs/
 
@@ -89,3 +76,11 @@ DerivedDataCache/*
 # IntelliJ IDEA
 .idea/
 *.iml
+
+#ignore large original assets
+Content/BattleWizardPolyart/*
+Content/InfinityBladeWeapons/*
+Content/ParagonGreystone/*
+Content/Assets/*
+
+
