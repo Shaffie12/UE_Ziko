@@ -5,8 +5,6 @@
 APaladinCharacter::APaladinCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	UsableWeaponType = EWeaponType::WP_Melee1Handed;
-	
 }
 
 void APaladinCharacter::BeginPlay()
@@ -29,50 +27,17 @@ void APaladinCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 void APaladinCharacter::BaseAttack()
 {
-	if(IsArmed())
-	{
-		const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
-		const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
-		if (EnergyVal < AttackEnergyCost) return;
-
-		if(M_Attack_Basic)
-		{
-			PlayAnimMontage(M_Attack_Basic);
-		}
-		EnergyVal -= AttackEnergyCost;
-	}
+	Super::BaseAttack();
 }
 
 void APaladinCharacter::FirstAbilityAttack()
 {
-	if(IsArmed())
-	{
-		const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
-		const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
-		if (EnergyVal < AttackEnergyCost) return;
-
-		if(M_Attack_Basic)
-		{
-			PlayAnimMontage(M_Attack_First);
-		}
-		EnergyVal -= AttackEnergyCost;
-	}
+	Super::FirstAbilityAttack();
 }
 
 void APaladinCharacter::SecondAbilityAttack()
 {
-	if(IsArmed())
-	{
-		const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
-		const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
-		if (EnergyVal < AttackEnergyCost) return;
-
-		if(M_Attack_Basic)
-		{
-			PlayAnimMontage(M_Attack_Second);
-		}
-		EnergyVal -= AttackEnergyCost;
-	}
+	Super::SecondAbilityAttack();
 }
 
 

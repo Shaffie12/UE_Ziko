@@ -11,15 +11,6 @@ class ZIKO_API APaladinCharacter : public ABaseCharacter
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Animations")
-	UAnimMontage* M_Attack_Basic;
-
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Animations")
-	UAnimMontage* M_Attack_First;
-
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Animations")
-	UAnimMontage* M_Attack_Second;
-	
 	APaladinCharacter();
 
 protected:

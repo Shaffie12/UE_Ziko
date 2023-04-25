@@ -35,6 +35,7 @@ ABaseCharacter::ABaseCharacter()
 
 	Weapon = nullptr;
 	PCController = nullptr;
+	
 }
 
 // Called when the game starts or when spawned
@@ -128,7 +129,6 @@ void ABaseCharacter::SetPrimaryWeapon(ABaseWeapon* NewWeapon)
 	
 }
 
-
 AActor* ABaseCharacter::GetClosestActorInRange() const
 {
 	const FVector PlayerFwd = GetActorForwardVector();
@@ -151,6 +151,57 @@ AActor* ABaseCharacter::GetClosestActorInRange() const
 	check(ClosestActor);
 	return ClosestActor;
 }
+
+void ABaseCharacter::BaseAttack()
+{
+	if(IsArmed())
+	{
+		const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
+		const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
+		if (EnergyVal < AttackEnergyCost) return;
+
+		if(M_Attack_Basic)
+		{
+			PlayAnimMontage(M_Attack_Basic);
+		}
+		EnergyVal -= AttackEnergyCost;
+	}
+}
+
+void ABaseCharacter::FirstAbilityAttack()
+{
+	if(IsArmed())
+	{
+		const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
+		const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
+		if (EnergyVal < AttackEnergyCost) return;
+
+		if(M_Attack_Basic)
+		{
+			PlayAnimMontage(M_Attack_First);
+		}
+		EnergyVal -= AttackEnergyCost;
+	}
+}
+
+void ABaseCharacter::SecondAbilityAttack()
+{
+	if(IsArmed())
+	{
+		const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
+		const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
+		if (EnergyVal < AttackEnergyCost) return;
+
+		if(M_Attack_Basic)
+		{
+			PlayAnimMontage(M_Attack_Second);
+		}
+		EnergyVal -= AttackEnergyCost;
+	}
+}
+
+
+
 
 void ABaseCharacter::RegenerateEnergy(const float DeltaTime)
 {

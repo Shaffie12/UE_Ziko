@@ -39,15 +39,24 @@ public:
 	
 	void SetAttackState(const EAttackType Type) { AttackType = Type; }
 	EAttackType GetAttackState() const { return AttackType; }
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Animations")
+	UAnimMontage* M_Attack_Basic;
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Animations")
+	UAnimMontage* M_Attack_First;
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Animations")
+	UAnimMontage* M_Attack_Second;
 	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	/*Perform character base attack*/
-	virtual void BaseAttack() PURE_VIRTUAL(ABaseCharacter::BaseAttack, );
-	virtual void FirstAbilityAttack() PURE_VIRTUAL(ABaseCharacter::FirstAbilityAttack, );
-	virtual void SecondAbilityAttack() PURE_VIRTUAL(ABaseCharacter::SecondAbilityAttack, );
+	virtual void BaseAttack();
+	virtual void FirstAbilityAttack();
+	virtual void SecondAbilityAttack();
 	
 private:
 	/*Handle character movement*/
@@ -70,8 +79,6 @@ protected:
 	float MaxEnergy;
 	UPROPERTY(EditDefaultsOnly, Category = "Ability Components")
 	float EnergyRegenerateRate;
-	UPROPERTY(EditAnywhere, Category = "Weapon Compatibility")
-	EWeaponType UsableWeaponType = EWeaponType::WP_None;
 	
 	float EnergyVal;
 	EAttackType AttackType;
@@ -89,10 +96,6 @@ private:
 	/*Tag for the weapon attachment socket*/
 	UPROPERTY(EditAnywhere, Category = "Tags")
 	FName WeaponAttachmentSocketName;
-	UPROPERTY(EditAnywhere, Category = "Tags")
-	FName PickableItemTag;
-	
-	
 	UPROPERTY()
 	ABaseWeapon* Weapon;
 	UPROPERTY()
