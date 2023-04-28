@@ -32,16 +32,16 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	
 }
 
-// int16 UHealthComponent::TakeDamage(int16 DamageAmount)
-// {
-// 	int16 Damage = FMath::Min(ShieldVal, DamageAmount);
-// 	ShieldVal -= Damage;
-// 	
-// 	if (Damage == DamageAmount) return HealthVal;
-//
-// 	Damage = DamageAmount - Damage;
-// 	HealthVal -= FMath::Min(HealthVal, Damage);
-// 	
-// 	return HealthVal;
-// }
+uint16 UHealthComponent::TakeDamage(uint16 DamageAmount)
+{
+	uint16 DamageApplied = FMath::Min(ShieldVal, DamageAmount);
+	ShieldVal -= DamageApplied;
+	
+	if (DamageApplied == DamageAmount) return HealthVal;
+
+	DamageApplied = DamageAmount - DamageApplied;
+	HealthVal -= FMath::Min(HealthVal, DamageApplied);
+	
+	return HealthVal;
+}
 

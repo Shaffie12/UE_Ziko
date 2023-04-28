@@ -17,17 +17,17 @@ void ASwordBasic::Tick(float DeltaSeconds)
 }
 
 
-void ASwordBasic::BaseAttack() const
+void ASwordBasic::BaseAttack()
 {
 	
 }
 
-void ASwordBasic::FirstAbilityAttack() const
+void ASwordBasic::FirstAbilityAttack()
 {
 	
 }
 
-void ASwordBasic::SecondAbilityAttack() const
+void ASwordBasic::SecondAbilityAttack()
 {
 	
 }
