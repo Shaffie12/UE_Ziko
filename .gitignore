@@ -1,3 +1,16 @@
+#ignore large original assets
+#Content/BattleWizardPolyart/*
+#Content/InfinityBladeWeapons/*
+#Content/ParagonGreystone/*
+#Content/ParagonSerath/*
+#Content/Assets/*
+#Content/Downloaded/*
+
+# Ignore everything, except "_Custom_Content" - all new packs will be automatically ignored, and all content in the custom folder automatically whitelisted.
+Content/**
+!Content/**/
+!Content/_Custom_Content/**
+
 # Visual Studio 2015 user specific files
 .vs/
 
@@ -76,16 +89,3 @@ DerivedDataCache/*
 # IntelliJ IDEA
 .idea/
 *.iml
-
-#ignore large original assets
-#Content/BattleWizardPolyart/*
-#Content/InfinityBladeWeapons/*
-#Content/ParagonGreystone/*
-#Content/ParagonSerath/*
-#Content/Assets/*
-#Content/Downloaded/*
-
-
-Content/**
-!Content/**/
-!Content/_Custom_Content/**
