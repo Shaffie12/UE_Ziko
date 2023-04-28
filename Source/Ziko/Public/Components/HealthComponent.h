@@ -23,15 +23,16 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	//int16 TakeDamage(int16 DamageAmount); //FIXME: use OnTakeAnyDamage delegate
+
+	uint16 TakeDamage(uint16 DamageAmount);
+
+	bool IsAlive() const { return ShieldVal == 0 && HealthVal == 0; }
 	
 private:
-	UPROPERTY(EditDefaultsOnly, Category = "Health")
-	uint16 MaxHealth;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Health")
-	uint16 MaxShield;
-
 	uint16 HealthVal;
 	uint16 ShieldVal;
+	UPROPERTY(EditDefaultsOnly, Category = "Health")
+	uint16 MaxHealth;
+	UPROPERTY(EditDefaultsOnly, Category = "Health")
+	uint16 MaxShield;
 };
