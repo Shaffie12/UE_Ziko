@@ -81,7 +81,11 @@ DerivedDataCache/*
 Content/BattleWizardPolyart/*
 Content/InfinityBladeWeapons/*
 Content/ParagonGreystone/*
+Content/ParagonSerath/*
 Content/Assets/*
 Content/Downloaded/*
 
 
+#Content/*
+#!Content/**/
+#!Content/_Custom_Content/**
