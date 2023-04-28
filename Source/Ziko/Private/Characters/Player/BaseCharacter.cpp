@@ -200,10 +200,18 @@ void ABaseCharacter::SecondAbilityAttack()
 	}
 }
 
-
-
-
-void ABaseCharacter::RegenerateEnergy(const float DeltaTime)
+inline void ABaseCharacter::RegenerateEnergy(const float DeltaTime)
 {
 	EnergyVal = FMath::Clamp(EnergyVal + (EnergyRegenerateRate * DeltaTime), 0.f, MaxEnergy);
+}
+
+bool ABaseCharacter::GetMouseLocation(FVector_NetQuantize& MousePos)
+{
+	check(PCController);
+	if (!PCController->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, OutHit))
+		return false;
+
+	MousePos = OutHit.ImpactPoint;
+	OutHit.Reset();
+	return true;
 }

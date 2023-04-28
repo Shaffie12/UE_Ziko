@@ -14,9 +14,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
-	virtual void BaseAttack() const override;
-	virtual void FirstAbilityAttack() const override;
-	virtual void SecondAbilityAttack() const override;
+	virtual void BaseAttack() override;
+	virtual void FirstAbilityAttack() override;
+	virtual void SecondAbilityAttack() override;
 	
 	
 };

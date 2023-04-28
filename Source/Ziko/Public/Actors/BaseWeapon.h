@@ -30,9 +30,9 @@ public:
 	void Drop(ABaseCharacter* ItemUser);
 	void Interact_Implementation(ABaseCharacter* ItemUser) override;
 	
-	virtual void BaseAttack() const PURE_VIRTUAL(ABaseWeapon::BaseAttack, );
-	virtual void FirstAbilityAttack() const PURE_VIRTUAL(ABaseWeapon::FirstAbilityAttack, );
-	virtual void SecondAbilityAttack() const PURE_VIRTUAL(ABaseWeapon::SecondAbilityAttack, );
+	virtual void BaseAttack() PURE_VIRTUAL(ABaseWeapon::BaseAttack, );
+	virtual void FirstAbilityAttack() PURE_VIRTUAL(ABaseWeapon::FirstAbilityAttack, );
+	virtual void SecondAbilityAttack() PURE_VIRTUAL(ABaseWeapon::SecondAbilityAttack, );
 
 	UFUNCTION(BlueprintNativeEvent,Category="Overlap")
 	void OnOverlapStarted(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

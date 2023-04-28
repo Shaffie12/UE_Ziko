@@ -26,16 +26,27 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	/*Perform Wand Attacks*/
-	virtual void BaseAttack() const override;
-	virtual void FirstAbilityAttack() const override;
-	virtual void SecondAbilityAttack() const override;
+	virtual void BaseAttack() override;
+	virtual void FirstAbilityAttack() override;
+	virtual void SecondAbilityAttack() override;
 	
 private:
-	/*Spawn point for magic to attack*/
+	/*Spawn point for magic for projectile attacks*/
 	UPROPERTY(EditAnywhere)
 	USceneComponent* MagicSpawnPoint;
 
-	/*Default actor to spawn when performing any attack*/
-	UPROPERTY(EditDefaultsOnly, Category = "Ability Attributes")
-	TSubclassOf<AActor> BpMagicBullet;
+	/*Base ability attack attributes*/
+	UPROPERTY(EditDefaultsOnly, Category = "Base Attack")
+	TSubclassOf<class AProjectile> BpProjectile;
+	
+	/*First ability attack attributes*/
+	UPROPERTY(EditDefaultsOnly, Category = "First Ability Attack")
+	TSubclassOf<class AIceCrystal> BpIceCrystal;
+	UPROPERTY(EditAnywhere, Category = "First Ability Attack")
+	float IceCrystalDestroyTimer;
+	//UPROPERTY(EditAnywhere, Category = "First Ability Attack")
+	//uint8 FreezingRange;
+	UPROPERTY(EditAnywhere, Category = "First Ability Attack")
+	uint8 IceCrystalZPos;
+	
 };

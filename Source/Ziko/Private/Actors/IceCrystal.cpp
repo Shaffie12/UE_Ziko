@@ -3,8 +3,6 @@
 
 #include "Actors/IceCrystal.h"
 
-#include "Ziko.h"
-#include "Actors/BaseWeapon.h"
 #include "Characters/AI/BaseEnemy.h"
 #include "Components/OverlapBox.h"
 #include "GameFramework/CharacterMovementComponent.h"
