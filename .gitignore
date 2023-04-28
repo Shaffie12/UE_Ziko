@@ -78,14 +78,14 @@ DerivedDataCache/*
 *.iml
 
 #ignore large original assets
-Content/BattleWizardPolyart/*
-Content/InfinityBladeWeapons/*
-Content/ParagonGreystone/*
-Content/ParagonSerath/*
-Content/Assets/*
-Content/Downloaded/*
+#Content/BattleWizardPolyart/*
+#Content/InfinityBladeWeapons/*
+#Content/ParagonGreystone/*
+#Content/ParagonSerath/*
+#Content/Assets/*
+#Content/Downloaded/*
 
 
-#Content/*
-#!Content/**/
-#!Content/_Custom_Content/**
+Content/**
+!Content/**/
+!Content/_Custom_Content/**
