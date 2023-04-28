@@ -77,11 +77,9 @@ DerivedDataCache/*
 .idea/
 *.iml
 
-#ignore large original assets
-Content/BattleWizardPolyart/*
-Content/InfinityBladeWeapons/*
-Content/ParagonGreystone/*
-Content/ParagonSerath/*
-Content/CityofBrass_Enemies/*
-Content/Assets/*
-Content/Downloaded/*
+#ignore large original assets, whitelist required content
+Content/**
+!Content/**/
+!Content/_Custom_Content/**
+
+

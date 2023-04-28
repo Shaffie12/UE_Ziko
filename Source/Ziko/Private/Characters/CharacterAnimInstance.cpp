@@ -5,7 +5,6 @@
 
 #include "Ziko.h"
 #include "Chaos/CollisionResolutionUtil.h"
-#include "Kismet/KismetMathLibrary.h"
 #include "Characters/Player/BaseCharacter.h"
 
 UCharacterAnimInstance::UCharacterAnimInstance()
@@ -39,21 +38,21 @@ void UCharacterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 void UCharacterAnimInstance::UpdateAnimAttributes()
 {
-	const FVector& Direction = Character->GetVelocity();
+	const FVector& Velocity = Character->GetVelocity();
 	
-	Speed = Direction.Size();
-	RotationAngle = GetRotationAngle(Direction);
+	Speed = Velocity.Size();
+	
+	RotationAngle = GetRotationAngle(Velocity);
 	bIsAlive = Character->IsAlive();
 	bIsArmed = Character->IsArmed();
 	bIsAttacking = Character->GetAttackState() != EAttackType::AT_None;
 	AttackType = Character->GetAttackState();
 }
 
-float UCharacterAnimInstance::GetRotationAngle(const FVector& Direction) const
+float UCharacterAnimInstance::GetRotationAngle(const FVector& Velocity) const
 {
-	const FTransform& CharacterTrans = Character->GetTransform(); 
-	const FVector LocalDir = UKismetMathLibrary::InverseTransformDirection(CharacterTrans, Direction);
-	const FRotator LocalRot = LocalDir.Rotation();
-	
-	return LocalRot.Yaw;
+	FVector VelToMouse = 
+	(Character->GetTransform().GetLocation() + Velocity) - (Character->GetTransform().GetLocation() + Character->GetActorForwardVector());
+	UE_LOG(LogTemp,Warning,TEXT("vel %f"),Velocity.X);
+	return  VelToMouse.Rotation().Yaw;
 }
