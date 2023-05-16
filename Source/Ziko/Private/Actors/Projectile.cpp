@@ -28,6 +28,13 @@ AProjectile::AProjectile()
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+
+	const AActor* const MyOwner = GetOwner();
+	if (MyOwner) return;
+
+	const ABaseCharacter* const Character = Cast<ABaseCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0));
+	check(Character);
+	SetOwner(Character->GetPrimaryWeapon());
 }
 
 // Called every frame
@@ -41,9 +48,9 @@ void AProjectile::EnemyWasHit(ACharacter* const Enemy)
 	ABaseWeapon* OwnerWeapon = Cast<ABaseWeapon>(GetOwner());
 	check(OwnerWeapon);
 	
-	const uint8 Damage = OwnerWeapon->GetAttackDamage(EAttackType::AT_Basic);
+	//const uint8 Damage = OwnerWeapon->GetAttackDamage(EAttackType::AT_Basic);
 	const FPointDamageEvent PointDamage{};
-	Enemy->TakeDamage(Damage, PointDamage, OwnerWeapon->GetInstigatorController(), OwnerWeapon);
+	Enemy->TakeDamage(10.f, PointDamage, OwnerWeapon->GetInstigatorController(), OwnerWeapon);
 	
 	verify(Destroy());
 }

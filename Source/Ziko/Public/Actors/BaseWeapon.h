@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "Components/SphereComponent.h"
-#include "Components/TextRenderComponent.h"
 #include "GameFramework/Actor.h"
 #include "Interfaces/Interactable.h"
 #include "BaseWeapon.generated.h"

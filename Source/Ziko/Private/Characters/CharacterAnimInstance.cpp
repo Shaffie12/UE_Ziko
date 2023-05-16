@@ -53,6 +53,6 @@ float UCharacterAnimInstance::GetRotationAngle(const FVector& Velocity) const
 {
 	FVector VelToMouse = 
 	(Character->GetTransform().GetLocation() + Velocity) - (Character->GetTransform().GetLocation() + Character->GetActorForwardVector());
-	UE_LOG(LogTemp,Warning,TEXT("vel %f"),Velocity.X);
+	//UE_LOG(LogTemp,Warning,TEXT("vel %f"),Velocity.X);
 	return  VelToMouse.Rotation().Yaw;
 }

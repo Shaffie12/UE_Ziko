@@ -39,14 +39,13 @@ public:
 	void SetPrimaryWeapon(ABaseWeapon* NewWeapon);
 	
 	void SetAttackState(const EAttackType Type) { AttackType = Type; }
+	UFUNCTION(BlueprintPure)
 	EAttackType GetAttackState() const { return AttackType; }
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Animations")
 	UAnimMontage* M_Attack_Basic;
-
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Animations")
 	UAnimMontage* M_Attack_First;
-
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Animations")
 	UAnimMontage* M_Attack_Second;
 
@@ -61,6 +60,8 @@ protected:
 	virtual void BaseAttack();
 	virtual void FirstAbilityAttack();
 	virtual void SecondAbilityAttack();
+
+	UClass* GetInitialWeaponBp() const;
 	
 private:
 	/*Handle character movement*/
@@ -99,15 +100,19 @@ private:
 
 	/*Tag for the weapon attachment socket*/
 	UPROPERTY(EditAnywhere, Category = "Tags")
-	FName WeaponAttachmentSocketName;
+	FName WeaponAttachmentSocketName;	//FIXME: WeaponBoneToHide may be referencing same socket
 	UPROPERTY()
 	ABaseWeapon* Weapon;
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class ABaseWeapon> StartWeapon;
+	UPROPERTY(EditDefaultsOnly)
+	FName WeaponBoneToHide;
+	
 	UPROPERTY()
 	APlayerCharacterController* PCController;
 	/*Set of interactable actors that the player triggered their overlap event*/
 	UPROPERTY()
 	TSet<AActor*> InteractablesInRange;
-	
 	/*HitResult used for getting mouse position to UpdateLookDir()*/
 	FHitResult OutHit;
 };
