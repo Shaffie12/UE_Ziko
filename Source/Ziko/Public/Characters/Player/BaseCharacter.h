@@ -33,8 +33,7 @@ public:
 	
 	bool IsArmed() const { return Weapon != nullptr; }
 	bool IsAlive() const { return bIsAlive ;}
-	const FHitResult GetMousePos() const {return OutHit; }
-
+	
 	ABaseWeapon* GetPrimaryWeapon() const { return Weapon; }
 	void SetPrimaryWeapon(ABaseWeapon* NewWeapon);
 	

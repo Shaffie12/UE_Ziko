@@ -62,7 +62,7 @@ void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	UpdateLookDir();
-	RegenerateEnergy(DeltaTime); //FIXME: Don't regenerate in Tick, use Timer maybe
+	RegenerateEnergy(DeltaTime); //FIXME: Don't regenerate in Tick, use Timer mayb
 }
 
 // Called to bind functionality to input
@@ -81,12 +81,13 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 void ABaseCharacter::MoveForward(float AxisValue)
 {
-	AddMovementInput(GetActorForwardVector(), AxisValue);
+	AddMovementInput(FVector::ForwardVector, AxisValue);
+	
 }
 
 void ABaseCharacter::MoveRight(float AxisValue)
 {
-	AddMovementInput(GetActorRightVector(), AxisValue);
+	AddMovementInput(FVector::RightVector, AxisValue);
 }
 
 void ABaseCharacter::UpdateLookDir()

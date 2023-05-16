@@ -2,10 +2,11 @@
 
 
 #include "Characters/CharacterAnimInstance.h"
-
+#include "Math/UnrealMathUtility.h"
 #include "Ziko.h"
 #include "Chaos/CollisionResolutionUtil.h"
 #include "Characters/Player/BaseCharacter.h"
+#include "Kismet/KismetMathLibrary.h"
 
 UCharacterAnimInstance::UCharacterAnimInstance()
 {
@@ -41,14 +42,13 @@ void UCharacterAnimInstance::UpdateAnimAttributes()
 	const FVector& Velocity = Character->GetVelocity();
 	
 	Speed = Velocity.Size();
-	
 	RotationAngle = GetRotationAngle(Velocity);
 	bIsAlive = Character->IsAlive();
 	bIsArmed = Character->IsArmed();
 	bIsAttacking = Character->GetAttackState() != EAttackType::AT_None;
 	AttackType = Character->GetAttackState();
 }
-
+//it doesnt appear to get the char right and fwd vectors properly.
 float UCharacterAnimInstance::GetRotationAngle(const FVector& Velocity) const
 {
 	FVector VelToMouse = 
