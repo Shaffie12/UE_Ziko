@@ -15,7 +15,6 @@ AWizardCharacter::AWizardCharacter()
 void AWizardCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	GetMesh()->HideBoneByName(FName("weapon_l"),EPhysBodyOp::PBO_None);
 	
 }
 
@@ -38,14 +37,14 @@ void AWizardCharacter::BaseAttack()
 	
 	ABaseWeapon* const MagicWand = GetPrimaryWeapon();
 	if (!MagicWand) return;
+	//
+	// const int8 AttackEnergyCost = MagicWand->GetAttackCost(EAttackType::AT_Basic);
+	// if (EnergyVal < AttackEnergyCost) return;
 
-	const int8 AttackEnergyCost = MagicWand->GetAttackCost(EAttackType::AT_Basic);
-	if (EnergyVal < AttackEnergyCost) return;
-	
 	AttackType = EAttackType::AT_Basic;
 	GetWorldTimerManager().SetTimer(AttackTimer, MagicWand, &ABaseWeapon::BaseAttack, BaseAttackWaitRate, false);
-	
-	EnergyVal -= AttackEnergyCost;
+	//
+	// //EnergyVal -= AttackEnergyCost;
 }
 
 void AWizardCharacter::FirstAbilityAttack()

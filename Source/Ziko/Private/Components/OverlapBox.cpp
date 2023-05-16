@@ -18,19 +18,26 @@ UOverlapBox::UOverlapBox()
 void UOverlapBox::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	AActor* const Owner = GetOwner();
-	check(Owner);
+	//UE_LOG(LogTemp, Warning, TEXT("[OverlapBox]: overlapBegin"));
+	
+	AActor* const SpawnedActor = GetOwner();
+	check(SpawnedActor);
+
+	AActor* Weapon = SpawnedActor->GetOwner();
+	//UE_LOG(LogTemp, Warning, TEXT("[OverlapBox]: Weapon: %s"), *Weapon->GetName());
+	
 	const APawn* const PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
 	check(PlayerPawn);
 	
-	if (OtherActor == Owner || OtherActor == PlayerPawn	|| !Owner->ActorHasTag(PlayerWeaponTag)) return;
+	if (OtherActor == SpawnedActor || OtherActor == PlayerPawn) return;
 
+	//UE_LOG(LogTemp, Warning, TEXT("[OverlapBox]: OtherActor: %s"), *OtherActor->GetName());
 	ABaseEnemy* const Target = Cast<ABaseEnemy>(OtherActor);
 	if (!Target) return;
 	
-	AProjectile* const Projectile = Cast<AProjectile>(Owner);
+	AProjectile* const Projectile = Cast<AProjectile>(SpawnedActor);
 	if (Projectile) Projectile->EnemyWasHit(Target);
 
-	AIceCrystal* const Crystal = Cast<AIceCrystal>(Owner);
+	AIceCrystal* const Crystal = Cast<AIceCrystal>(SpawnedActor);
 	if (Crystal) Crystal->EnemyWasHit(Target);
 }

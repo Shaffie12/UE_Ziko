@@ -44,9 +44,17 @@ void ABaseCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	EnergyVal = MaxEnergy;
-	
 	PCController = Cast<APlayerCharacterController>(GetController());
 	check(PCController);
+
+	USkeletalMeshComponent* const PlayerMesh = GetMesh();
+	check(PlayerMesh);
+	PlayerMesh->HideBoneByName(WeaponBoneToHide, EPhysBodyOp::PBO_None);
+	
+	Weapon = GetWorld()->SpawnActor<ABaseWeapon>(StartWeapon);
+	check(Weapon);
+	Weapon->AttachToComponent(PlayerMesh, FAttachmentTransformRules::KeepRelativeTransform, FName(WeaponBoneToHide));
+	Weapon->SetOwner(this);
 }
 
 // Called every frame
@@ -84,10 +92,10 @@ void ABaseCharacter::MoveRight(float AxisValue)
 void ABaseCharacter::UpdateLookDir()
 {
 	if (!PCController->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, OutHit)) return;
-	const FVector player_fwd = GetActorLocation() + GetActorForwardVector();
+	const FVector PlayerFwd = GetActorLocation() + GetActorForwardVector();
 	
-	FRotator newRot = ( OutHit.Location - player_fwd ).Rotation();
-	AddActorLocalRotation(FRotator(0.0f,newRot.Yaw,0.0f));
+	const FRotator NewRot = ( OutHit.Location - PlayerFwd ).Rotation();
+	AddActorLocalRotation(FRotator(0.0f,NewRot.Yaw,0.0f));
 	DrawDebugSphere(GetWorld(),OutHit.Location,100,12,FColor::Green);
 }
 
@@ -105,28 +113,24 @@ void ABaseCharacter::Interact()
 {
 	if (InteractablesInRange.Num() == 0) return;	//FIXME: Couldn't find TArray::IsEmpty()??
 
-	AActor* Item = GetClosestActorInRange();	//FIXME: Get closest item based on distance and player look direction
-	
+	AActor* Item = GetClosestActorInRange();	
 	check(Item);
+	
 	if (Item->GetClass()->ImplementsInterface(UInteractable::StaticClass()))
 	{
 		IInteractable::Execute_Interact(Item,this);
 	}
-
 	InteractablesInRange.Remove(Item);
 }
 
 void ABaseCharacter::SetPrimaryWeapon(ABaseWeapon* NewWeapon)
 {
-	if(NewWeapon != nullptr)
-	{
-		Weapon=NewWeapon;
-		Weapon->SetActorLocation(FVector(0.f));
-		Weapon->AttachToComponent(GetMesh() ,FAttachmentTransformRules::SnapToTargetIncludingScale,WeaponAttachmentSocketName);
-		Weapon->SetOwner(this);
-	}
-	else Weapon = nullptr;
+	if(!NewWeapon) return;
 	
+	Weapon=NewWeapon;
+	Weapon->SetActorLocation(FVector(0.f));
+	Weapon->AttachToComponent(GetMesh() ,FAttachmentTransformRules::SnapToTargetIncludingScale,WeaponAttachmentSocketName);
+	Weapon->SetOwner(this);
 }
 
 AActor* ABaseCharacter::GetClosestActorInRange() const
@@ -154,18 +158,15 @@ AActor* ABaseCharacter::GetClosestActorInRange() const
 
 void ABaseCharacter::BaseAttack()
 {
-	if(IsArmed())
-	{
-		const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
-		const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
-		if (EnergyVal < AttackEnergyCost) return;
-
-		if(M_Attack_Basic)
-		{
-			PlayAnimMontage(M_Attack_Basic);
-		}
-		EnergyVal -= AttackEnergyCost;
-	}
+	if(!Weapon) return;
+	
+	// const int8 AttackEnergyCost = Weapon->GetAttackCost(EAttackType::AT_Basic);
+	// if (EnergyVal < AttackEnergyCost) return;
+	//
+	// check(M_Attack_Basic);
+	// const float MontageLength = PlayAnimMontage(M_Attack_Basic);
+	// UE_LOG(LogTemp, Warning, TEXT("Montage Length: %f"), MontageLength);
+	// EnergyVal -= AttackEnergyCost;
 }
 
 void ABaseCharacter::FirstAbilityAttack()
@@ -214,4 +215,9 @@ bool ABaseCharacter::GetMouseLocation(FVector_NetQuantize& MousePos)
 	MousePos = OutHit.ImpactPoint;
 	OutHit.Reset();
 	return true;
+}
+
+UClass* ABaseCharacter::GetInitialWeaponBp() const
+{
+	return StartWeapon;
 }

@@ -34,6 +34,7 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 uint16 UHealthComponent::TakeDamage(uint16 DamageAmount)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Taking Damage"));
 	uint16 DamageApplied = FMath::Min(ShieldVal, DamageAmount);
 	ShieldVal -= DamageApplied;
 	
