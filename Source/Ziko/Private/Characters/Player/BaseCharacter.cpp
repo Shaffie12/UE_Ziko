@@ -129,7 +129,7 @@ void ABaseCharacter::SetPrimaryWeapon(ABaseWeapon* NewWeapon)
 	
 	Weapon=NewWeapon;
 	Weapon->SetActorLocation(FVector(0.f));
-	Weapon->AttachToComponent(GetMesh() ,FAttachmentTransformRules::SnapToTargetIncludingScale,WeaponAttachmentSocketName);
+	Weapon->AttachToComponent(GetMesh() ,FAttachmentTransformRules::SnapToTargetIncludingScale,WeaponBoneToHide);
 	Weapon->SetOwner(this);
 }
 
