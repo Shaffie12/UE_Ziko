@@ -19,10 +19,10 @@ class ZIKO_API UCharacterAnimInstance : public UAnimInstance
 
 public:
 	UCharacterAnimInstance();
-	
 protected:
 	/*Acts as BeginPlay*/
 	virtual void NativeInitializeAnimation() override;
+	
 
 	/*Acts as Tick*/
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
@@ -30,6 +30,7 @@ protected:
 private:
 	void UpdateAnimAttributes();
 	float GetRotationAngle(const FVector& Velocity) const;
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation Properties")
 	ABaseCharacter* Character;

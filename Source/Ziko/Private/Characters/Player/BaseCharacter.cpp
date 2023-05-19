@@ -10,6 +10,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Actors/MeleeOneHanded.h"
+#include "Characters/CharacterAnimInstance.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
@@ -95,8 +96,8 @@ void ABaseCharacter::UpdateLookDir()
 	if (!PCController->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, OutHit)) return;
 	const FVector PlayerFwd = GetActorLocation() + GetActorForwardVector();
 	
-	const FRotator NewRot = ( OutHit.Location - PlayerFwd ).Rotation();
-	AddActorLocalRotation(FRotator(0.0f,NewRot.Yaw,0.0f));
+	const FRotator NewRot = ( OutHit.Location - PlayerFwd ).Rotation();;
+	GetController()->SetControlRotation((FRotator(0.0f,NewRot.Yaw,0.0f)));
 	DrawDebugSphere(GetWorld(),OutHit.Location,100,12,FColor::Green);
 }
 
