@@ -10,6 +10,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Actors/MeleeOneHanded.h"
+#include "Characters/CharacterAnimInstance.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
@@ -62,7 +63,7 @@ void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	UpdateLookDir();
-	RegenerateEnergy(DeltaTime); //FIXME: Don't regenerate in Tick, use Timer maybe
+	RegenerateEnergy(DeltaTime); //FIXME: Don't regenerate in Tick, use Timer mayb
 }
 
 // Called to bind functionality to input
@@ -81,12 +82,13 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 void ABaseCharacter::MoveForward(float AxisValue)
 {
-	AddMovementInput(GetActorForwardVector(), AxisValue);
+	AddMovementInput(FVector::ForwardVector, AxisValue);
+	
 }
 
 void ABaseCharacter::MoveRight(float AxisValue)
 {
-	AddMovementInput(GetActorRightVector(), AxisValue);
+	AddMovementInput(FVector::RightVector, AxisValue);
 }
 
 void ABaseCharacter::UpdateLookDir()
@@ -94,8 +96,8 @@ void ABaseCharacter::UpdateLookDir()
 	if (!PCController->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, OutHit)) return;
 	const FVector PlayerFwd = GetActorLocation() + GetActorForwardVector();
 	
-	const FRotator NewRot = ( OutHit.Location - PlayerFwd ).Rotation();
-	AddActorLocalRotation(FRotator(0.0f,NewRot.Yaw,0.0f));
+	const FRotator NewRot = ( OutHit.Location - PlayerFwd ).Rotation();;
+	GetController()->SetControlRotation((FRotator(0.0f,NewRot.Yaw,0.0f)));
 	DrawDebugSphere(GetWorld(),OutHit.Location,100,12,FColor::Green);
 }
 

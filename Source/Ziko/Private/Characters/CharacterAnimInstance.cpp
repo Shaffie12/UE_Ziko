@@ -2,6 +2,7 @@
 
 
 #include "Characters/CharacterAnimInstance.h"
+#include "Kismet/KismetMathLibrary.h"
 
 #include "Ziko.h"
 #include "Chaos/CollisionResolutionUtil.h"
@@ -41,18 +42,19 @@ void UCharacterAnimInstance::UpdateAnimAttributes()
 	const FVector& Velocity = Character->GetVelocity();
 	
 	Speed = Velocity.Size();
-	
 	RotationAngle = GetRotationAngle(Velocity);
 	bIsAlive = Character->IsAlive();
 	bIsArmed = Character->IsArmed();
 	bIsAttacking = Character->GetAttackState() != EAttackType::AT_None;
 	AttackType = Character->GetAttackState();
 }
-
 float UCharacterAnimInstance::GetRotationAngle(const FVector& Velocity) const
 {
-	FVector VelToMouse = 
-	(Character->GetTransform().GetLocation() + Velocity) - (Character->GetTransform().GetLocation() + Character->GetActorForwardVector());
-	//UE_LOG(LogTemp,Warning,TEXT("vel %f"),Velocity.X);
-	return  VelToMouse.Rotation().Yaw;
+	FVector Char = Character ->GetActorForwardVector();
+	float Angle = UKismetMathLibrary::Acos(FVector::DotProduct(Char, Velocity.GetSafeNormal()));
+	float Sign = FVector::CrossProduct(Char,Velocity.GetSafeNormal()).Z;
+	Angle = Angle * 180.0f/PI;
+	Sign<0? Angle = -Angle: Angle;
+	
+	return (Angle);
 }
