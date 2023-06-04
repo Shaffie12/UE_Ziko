@@ -11,8 +11,6 @@ void APaladinCharacter::BeginPlay()
 {
 	
 	Super::BeginPlay();
-	GetMesh()->HideBoneByName(TEXT("sword_bottom"),EPhysBodyOp::PBO_None);
-	GetMesh()->HideBoneByName(TEXT("sword_top"),EPhysBodyOp::PBO_None);
 }
 
 void APaladinCharacter::Tick(float DeltaTime)
