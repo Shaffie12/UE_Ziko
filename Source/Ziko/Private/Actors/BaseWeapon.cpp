@@ -80,7 +80,7 @@ void ABaseWeapon::Pickup(ABaseCharacter* ItemUser)
 {
 	MeshComp -> SetSimulatePhysics(false);
 	MeshComp -> SetCollisionProfileName("OverlapAllDynamic");
-	MeshComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	MeshComp -> SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	InteractArea -> SetGenerateOverlapEvents(false);
 	ItemUser->SetPrimaryWeapon(this);
 	
