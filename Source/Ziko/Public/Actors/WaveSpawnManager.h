@@ -19,23 +19,6 @@ class ZIKO_API AWaveSpawnManager: public AActor
 	virtual void BeginPlay() override;
 	void DecreaseEnemyCount(); 
 public:
-	
-	const TSubclassOf<ABaseEnemy> GetEnemyType() const
-	{
-		if(EnemyBPs.Num()> 0)
-			return EnemyBPs[0];
-		return NULL;
-	}
-	
-	FVector2D GetNextSpawnPos()
-	{
-		/*float XRand,YRand,R;
-		R = FMath::RandRange(0.0f,1.0f);
-		XRand =FMath::RandRange(5.0f,15.0f);
-		const FVector2D Scrn = FVector2D(GEngine->GameViewport->Viewport->GetSizeXY());*/
-		
-		UE_LOG(LogTemp,Warning,TEXT("asdas"));
-		
-		return FVector2D(0,0);
-	}
+	TSubclassOf<ABaseEnemy> GetEnemyType() const;
+	FVector GetNextSpawnPos() const;
 };

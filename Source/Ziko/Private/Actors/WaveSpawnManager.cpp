@@ -26,6 +26,28 @@ void AWaveSpawnManager::DecreaseEnemyCount()
 	}
 }
 
+TSubclassOf<ABaseEnemy> AWaveSpawnManager::GetEnemyType() const
+{
+	if(EnemyBPs.Num()> 0)
+		return EnemyBPs[0];
+	return NULL;
+}
+
+FVector AWaveSpawnManager::GetNextSpawnPos() const
+{
+	const FVector2D Scrn = FVector2D(GEngine->GameViewport->Viewport->GetSizeXY());
+	float XRand,YRand,R;
+	R = FMath::RandRange(0.0f,1.0f);
+	XRand =FMath::RandRange(10.0f,30.0f);
+	YRand = FMath::RandRange(10.0f,30.0f);
+
+	XRand =  R > 0.5f ? Scrn.X + XRand : -Scrn.X -XRand;
+	R = FMath::RandRange(0.0f,1.0f);
+	YRand = R > 0.5f? -Scrn.Y + YRand : -Scrn.Y- YRand;
+		
+	return FVector(XRand,YRand,0.0f);
+}
+
 void AWaveSpawnManager::NextWave()
 {
 	WaveNumber++;
