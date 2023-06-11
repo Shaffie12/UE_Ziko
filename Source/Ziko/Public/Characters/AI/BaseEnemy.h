@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "BaseEnemy.generated.h"
-
+DECLARE_DELEGATE(FOnDestroySignature)
 UCLASS()
 class ZIKO_API ABaseEnemy : public ACharacter
 {
@@ -18,6 +18,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	virtual void OnDestroy();
 
 public:	
 	// Called every frame
@@ -27,8 +29,11 @@ public:
 		AActor* DamageCauser) override;
 
 	bool IsAlive() const;
+	static FOnDestroySignature EnemyDead;
 	
+
 private:
 	UPROPERTY(EditDefaultsOnly)
 	class UHealthComponent* HealthComp;
+	
 };

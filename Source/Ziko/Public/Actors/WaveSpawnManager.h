@@ -12,10 +12,12 @@ class ZIKO_API AWaveSpawnManager: public AActor
 	GENERATED_BODY()
 	UPROPERTY(EditAnywhere,NoClear, Category = "Spawn")
 	TArray<TSubclassOf<ABaseEnemy>> EnemyBPs;
-	int WaveNumber = 1;
+	int WaveNumber = 1; //need a way to get a ref to this
 	int MaxEnemies = WaveNumber * 3;
+	int EnemiesAlive = 0;
 	void NextWave();
 	virtual void BeginPlay() override;
+	void DecreaseEnemyCount(); 
 public:
 	
 	const TSubclassOf<ABaseEnemy> GetEnemyType() const

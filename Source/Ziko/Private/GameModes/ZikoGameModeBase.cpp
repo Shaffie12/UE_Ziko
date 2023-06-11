@@ -6,7 +6,6 @@
 void AZikoGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
-	const FActorSpawnParameters Params;
-	GetWorld()->SpawnActor<AWaveSpawnManager>(FVector::ZeroVector,FRotator::ZeroRotator,Params);
+	
 	
 }	

@@ -4,7 +4,7 @@
 #include "Characters/AI/BaseEnemy.h"
 
 #include "Components/HealthComponent.h"
-
+FOnDestroySignature ABaseEnemy::EnemyDead;
 // Sets default values
 ABaseEnemy::ABaseEnemy()
 {
@@ -19,6 +19,12 @@ void ABaseEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void ABaseEnemy::OnDestroy()
+{
+	EnemyDead.Execute();
+	UE_LOG(LogTemp,Warning,TEXT("ENEMY KILLED."))
 }
 
 // Called every frame
@@ -40,6 +46,7 @@ float ABaseEnemy::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent
 	if (Health == 0)
 	{
 		DetachFromControllerPendingDestroy();
+		OnDestroy();
 		verify(Destroy() == true);
 	}
 	return Damage;

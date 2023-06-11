@@ -4,7 +4,7 @@
 
 class SpawnWave : public FPendingLatentAction
 {
-	AWaveSpawnManager& Mgr;
+	AWaveSpawnManager* Mgr;
 	float& DT;
 	int EnemiesToSpawn;
 	int Enemies_Spawned;
@@ -12,7 +12,7 @@ class SpawnWave : public FPendingLatentAction
 	float Timer;
 
 public:
-	SpawnWave(AWaveSpawnManager& Mgr, int spawns, float& deltaTime): Mgr(Mgr),DT(deltaTime), EnemiesToSpawn(spawns), Enemies_Spawned(0), Timer(0.f){};
+	SpawnWave(AWaveSpawnManager* Mgr, int& spawns, float& deltaTime): Mgr(Mgr),DT(deltaTime), EnemiesToSpawn(spawns), Enemies_Spawned(0), Timer(0.f){};
 	
 	virtual void UpdateOperation(FLatentResponse& Response) override
 	{
@@ -30,12 +30,12 @@ public:
 	
 	void SpawnEnemy()
 	{
-		UWorld* world = Mgr.GetWorld();
+		UWorld* world = Mgr->GetWorld();
 		if(world)
 		{
-			TSubclassOf<ABaseEnemy> Spawn = Mgr.GetEnemyType();
+			TSubclassOf<ABaseEnemy> Spawn = Mgr->GetEnemyType();
 			if(Spawn!=NULL)
-				world->SpawnActor<ABaseEnemy>(Mgr.GetEnemyType(),FVector::ZeroVector,FRotator::ZeroRotator);
+				world->SpawnActor<ABaseEnemy>(Mgr->GetEnemyType(),FVector::ZeroVector,FRotator::ZeroRotator);
 		}
 		
 	}
