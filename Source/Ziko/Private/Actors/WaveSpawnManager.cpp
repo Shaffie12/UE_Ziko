@@ -38,7 +38,7 @@ FVector AWaveSpawnManager::GetNextSpawnPos() const
 	const FVector2D Scrn = FVector2D(GEngine->GameViewport->Viewport->GetSizeXY());
 	float XRand,YRand,R;
 	R = FMath::RandRange(0.0f,1.0f);
-	XRand =FMath::RandRange(10.0f,30.0f);
+	XRand = FMath::RandRange(10.0f,30.0f);
 	YRand = FMath::RandRange(10.0f,30.0f);
 
 	XRand =  R > 0.5f ? Scrn.X + XRand : -Scrn.X -XRand;
@@ -51,6 +51,7 @@ FVector AWaveSpawnManager::GetNextSpawnPos() const
 void AWaveSpawnManager::NextWave()
 {
 	WaveNumber++;
+	MaxEnemies = WaveNumber * 3;
 	GetWorld()->GetLatentActionManager().AddNewAction(this,1,new SpawnWave(this,MaxEnemies,
 		GetWorld()->DeltaTimeSeconds));
 	
