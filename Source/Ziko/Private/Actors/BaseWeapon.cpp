@@ -31,7 +31,7 @@ void ABaseWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	InteractArea->SetRelativeLocation(FVector(0,0,MeshComp->Bounds.BoxExtent.Z/2));
+	InteractArea-> SetRelativeLocation(FVector(0,0,MeshComp->Bounds.BoxExtent.Z/2));
 	InteractArea -> OnComponentBeginOverlap.AddDynamic(this,&ABaseWeapon::OnOverlapStarted);
 	InteractArea -> OnComponentEndOverlap.AddDynamic(this,&ABaseWeapon::OnOverlapEnded);
 }
@@ -80,7 +80,7 @@ void ABaseWeapon::Pickup(ABaseCharacter* ItemUser)
 {
 	MeshComp -> SetSimulatePhysics(false);
 	MeshComp -> SetCollisionProfileName("OverlapAllDynamic");
-	MeshComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	MeshComp-> SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	InteractArea -> SetGenerateOverlapEvents(false);
 	ItemUser->SetPrimaryWeapon(this);
 	
