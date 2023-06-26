@@ -10,6 +10,7 @@ ASwordBasic::ASwordBasic()
 void ASwordBasic::BeginPlay()
 {
 	Super::BeginPlay();
+	DamageArea = Cast<UBoxComponent>(GetComponentByClass(UBoxComponent::StaticClass()));
 	DamageArea->OnComponentBeginOverlap.AddDynamic(this,&ASwordBasic::ApplyDamageOnOverlap);
 }
 
