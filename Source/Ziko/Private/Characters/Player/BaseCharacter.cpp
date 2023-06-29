@@ -179,7 +179,7 @@ void ABaseCharacter::FirstAbilityAttack()
 		const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
 		if (EnergyVal < AttackEnergyCost) return;
 
-		if(M_Attack_Basic)
+		if(M_Attack_First)
 		{
 			PlayAnimMontage(M_Attack_First);
 		}
@@ -195,7 +195,7 @@ void ABaseCharacter::SecondAbilityAttack()
 		const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
 		if (EnergyVal < AttackEnergyCost) return;
 
-		if(M_Attack_Basic)
+		if(M_Attack_Second)
 		{
 			PlayAnimMontage(M_Attack_Second);
 		}
