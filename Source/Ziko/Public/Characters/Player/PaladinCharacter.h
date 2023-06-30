@@ -12,6 +12,8 @@ class ZIKO_API APaladinCharacter : public ABaseCharacter
 
 public:
 	APaladinCharacter();
+	virtual void Tick(float DeltaTime) override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -25,8 +27,9 @@ protected:
 	virtual void SecondAbilityAttack() override;
 
 public:
-	virtual void Tick(float DeltaTime) override;
-
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+	UPROPERTY()
+	bool IsBusy;
+	UPROPERTY()
+	bool AppliedDamage;
 	
 };

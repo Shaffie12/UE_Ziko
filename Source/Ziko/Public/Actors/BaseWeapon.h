@@ -25,8 +25,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void Pickup(ABaseCharacter* ItemUser);
-	void Drop(ABaseCharacter* ItemUser);
+	virtual void Pickup(ABaseCharacter* ItemUser);
+	virtual void Drop(ABaseCharacter* ItemUser);
 	void Interact_Implementation(ABaseCharacter* ItemUser) override;
 	
 	virtual void BaseAttack() PURE_VIRTUAL(ABaseWeapon::BaseAttack, );
