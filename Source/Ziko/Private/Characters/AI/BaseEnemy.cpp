@@ -4,7 +4,7 @@
 #include "Characters/AI/BaseEnemy.h"
 
 #include "Components/HealthComponent.h"
-FOnDestroySignature ABaseEnemy::EnemyDead;
+FOnDestroySignature ABaseEnemy::EnemyDead; 
 // Sets default values
 ABaseEnemy::ABaseEnemy()
 {

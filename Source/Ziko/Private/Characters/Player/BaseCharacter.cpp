@@ -159,51 +159,33 @@ AActor* ABaseCharacter::GetClosestActorInRange() const
 
 void ABaseCharacter::BaseAttack()
 {
-	if(!Weapon) return;
-	if(M_Attack_Basic)
-	{
-		PlayAnimMontage(M_Attack_Basic);
-	}
-	
-	// const int8 AttackEnergyCost = Weapon->GetAttackCost(EAttackType::AT_Basic);
-	// if (EnergyVal < AttackEnergyCost) return;
-	//
-	// check(M_Attack_Basic);
-	// const float MontageLength = PlayAnimMontage(M_Attack_Basic);
-	// UE_LOG(LogTemp, Warning, TEXT("Montage Length: %f"), MontageLength);
-	// EnergyVal -= AttackEnergyCost;
+	if(!IsArmed())return;
+	const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
+	const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
+	if (EnergyVal < AttackEnergyCost) return;
+	EnergyVal -= AttackEnergyCost;
 }
 
 void ABaseCharacter::FirstAbilityAttack()
 {
-	if(IsArmed())
-	{
-		const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
-		const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
-		if (EnergyVal < AttackEnergyCost) return;
-
-		if(M_Attack_First)
-		{
-			PlayAnimMontage(M_Attack_First);
-		}
-		EnergyVal -= AttackEnergyCost;
-	}
+	if(!IsArmed())return;
+	const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
+	const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
+	if (EnergyVal < AttackEnergyCost) return;
+	EnergyVal -= AttackEnergyCost;
+	
+	
+	
 }
 
 void ABaseCharacter::SecondAbilityAttack()
 {
-	if(IsArmed())
-	{
-		const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
-		const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
-		if (EnergyVal < AttackEnergyCost) return;
-
-		if(M_Attack_Second)
-		{
-			PlayAnimMontage(M_Attack_Second);
-		}
-		EnergyVal -= AttackEnergyCost;
-	}
+	if(!IsArmed()) return;
+	
+	const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
+	const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
+	if (EnergyVal < AttackEnergyCost) return;
+	EnergyVal -= AttackEnergyCost;
 }
 
 inline void ABaseCharacter::RegenerateEnergy(const float DeltaTime)

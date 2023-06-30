@@ -54,14 +54,10 @@ void AWizardCharacter::FirstAbilityAttack()
 	
 	ABaseWeapon* const Wand = GetPrimaryWeapon();
 	if (!Wand) return;
-
-	const int8 AttackEnergyCost = Wand->GetAttackCost(EAttackType::AT_Ability1);
-	if (EnergyVal < AttackEnergyCost) return;
-
+	
 	AttackType = EAttackType::AT_Ability1;
 	GetWorldTimerManager().SetTimer(AttackTimer, Wand, &ABaseWeapon::FirstAbilityAttack, BaseAttackWaitRate, false);
 	
-	EnergyVal -= AttackEnergyCost;
 }
 
 void AWizardCharacter::SecondAbilityAttack()

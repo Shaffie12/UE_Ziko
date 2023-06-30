@@ -2,6 +2,7 @@
 
 #include "Characters/Player/PaladinCharacter.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine.h"
 
 ASwordBasic::ASwordBasic()
 {
@@ -23,20 +24,16 @@ void ASwordBasic::Tick(float DeltaSeconds)
 }
 
 
-
-void ASwordBasic::BaseAttack()
-{
-	//probably want to activate the collider when this is called
-}
-
 void ASwordBasic::ApplyDamageOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
+	GEngine->AddOnScreenDebugMessage(-1,5.0f,FColor::Green,FString::Printf(TEXT("HIT: %s"),*OtherActor->GetName()));
 	if(GetOwner()!=nullptr)
 	{
 		APaladinCharacter* Player =  Cast<APaladinCharacter>(GetOwner());
 		if(!Player->AppliedDamage)
 		{
+			//check if other actor can be damaged
 			UGameplayStatics::ApplyDamage(OtherActor,10.0f,
 GetWorld()->GetFirstPlayerController(),this,UDamageType::StaticClass());
 			Player->AppliedDamage=true;
@@ -45,10 +42,10 @@ GetWorld()->GetFirstPlayerController(),this,UDamageType::StaticClass());
 	
 }
 
-void ASwordBasic::FirstAbilityAttack()
-{
-	
-}
+
+void ASwordBasic::BaseAttack(){}
+
+void ASwordBasic::FirstAbilityAttack(){}
 
 void ASwordBasic::SecondAbilityAttack()
 {

@@ -16,6 +16,7 @@ void AWaveSpawnManager::BeginPlay()
 	
 }
 
+//game will crash when this is called if the enemy was not spawned by the manager
 void AWaveSpawnManager::DecreaseEnemyCount()
 {
 	EnemiesAlive--;

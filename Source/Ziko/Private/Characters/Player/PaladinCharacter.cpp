@@ -29,31 +29,36 @@ void APaladinCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 void APaladinCharacter::BaseAttack()
 {
 	Super::BaseAttack();
-	if(IsArmed())
+	
+	if(M_Attack_Basic && !IsBusy)
 	{
-		const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
-		const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
-		if (EnergyVal < AttackEnergyCost) return;
-
-		if(M_Attack_Basic && !IsBusy)
-		{
-			IsBusy=true;
-			Cast<ASwordBasic>(GetPrimaryWeapon())->DamageArea->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-			PlayAnimMontage(M_Attack_Basic);
-		}
-		EnergyVal -= AttackEnergyCost;
+		IsBusy=true;
+		Cast<ASwordBasic>(GetPrimaryWeapon())->DamageArea->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		PlayAnimMontage(M_Attack_Basic);
 	}
+	
 }
 
 void APaladinCharacter::FirstAbilityAttack()
 {
-	//should uncheck busy
 	Super::FirstAbilityAttack();
+	if(M_Attack_First && !IsBusy)
+	{
+		IsBusy=true;
+		PlayAnimMontage(M_Attack_First);
+	}
 }
 
 void APaladinCharacter::SecondAbilityAttack()
 {
 	Super::SecondAbilityAttack();
+	if(M_Attack_Second && !IsBusy)
+	{
+		IsBusy=true;
+		PlayAnimMontage(M_Attack_Second);
+		
+	}
+	
 }
 
 
