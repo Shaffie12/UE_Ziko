@@ -54,8 +54,7 @@ void ABaseCharacter::BeginPlay()
 	
 	Weapon = GetWorld()->SpawnActor<ABaseWeapon>(StartWeapon);
 	check(Weapon);
-	Weapon->AttachToComponent(PlayerMesh, FAttachmentTransformRules::KeepRelativeTransform, FName(WeaponBoneToHide));
-	Weapon->SetOwner(this);
+	Weapon->Pickup(this);
 }
 
 // Called every frame
@@ -131,7 +130,7 @@ void ABaseCharacter::SetPrimaryWeapon(ABaseWeapon* NewWeapon)
 	
 	Weapon=NewWeapon;
 	Weapon->SetActorLocation(FVector(0.f));
-	Weapon->AttachToComponent(GetMesh() ,FAttachmentTransformRules::SnapToTargetIncludingScale,WeaponBoneToHide);
+	Weapon->AttachToComponent(GetMesh() ,FAttachmentTransformRules::KeepRelativeTransform,WeaponBoneToHide);
 	Weapon->SetOwner(this);
 }
 
@@ -161,6 +160,10 @@ AActor* ABaseCharacter::GetClosestActorInRange() const
 void ABaseCharacter::BaseAttack()
 {
 	if(!Weapon) return;
+	if(M_Attack_Basic)
+	{
+		PlayAnimMontage(M_Attack_Basic);
+	}
 	
 	// const int8 AttackEnergyCost = Weapon->GetAttackCost(EAttackType::AT_Basic);
 	// if (EnergyVal < AttackEnergyCost) return;
@@ -179,7 +182,7 @@ void ABaseCharacter::FirstAbilityAttack()
 		const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
 		if (EnergyVal < AttackEnergyCost) return;
 
-		if(M_Attack_Basic)
+		if(M_Attack_First)
 		{
 			PlayAnimMontage(M_Attack_First);
 		}
