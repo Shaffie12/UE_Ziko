@@ -42,6 +42,7 @@ void UCharacterAnimInstance::UpdateAnimAttributes()
 	const FVector& Velocity = Character->GetVelocity();
 	
 	Speed = Velocity.Size();
+	bIsMoving = Velocity.Size() > 0.5f;
 	RotationAngle = GetRotationAngle(Velocity);
 	bIsAlive = Character->IsAlive();
 	bIsArmed = Character->IsArmed();

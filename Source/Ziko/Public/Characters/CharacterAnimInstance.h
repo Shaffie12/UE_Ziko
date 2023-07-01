@@ -23,7 +23,6 @@ protected:
 	/*Acts as BeginPlay*/
 	virtual void NativeInitializeAnimation() override;
 	
-
 	/*Acts as Tick*/
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
@@ -49,6 +48,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation Properties")
 	bool bIsAttacking;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category= "Animation Properties")
+	bool bIsMoving;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation Properties")
 	EAttackType AttackType;

@@ -74,7 +74,7 @@ private:
 	void UpdateLookDir();
 	/*Regenerate player power energy*/
 	void RegenerateEnergy(const float DeltaTime);
-	
+
 protected:
 	/*Abilities Component*/
 	UPROPERTY(EditAnywhere, Category = "Ability Components")
