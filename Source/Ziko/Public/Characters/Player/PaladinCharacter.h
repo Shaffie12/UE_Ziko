@@ -3,12 +3,15 @@
 #include "CoreMinimal.h"
 #include "BaseCharacter.h"
 #include "GameFramework/Character.h"
+#include "Particles/ParticleEmitter.h"
 #include "PaladinCharacter.generated.h"
 
 UCLASS()
 class ZIKO_API APaladinCharacter : public ABaseCharacter
 {
 	GENERATED_BODY()
+
+	UParticleSystemComponent * Aura;
 
 public:
 	APaladinCharacter();
