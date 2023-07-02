@@ -33,6 +33,7 @@ void APaladinCharacter::BaseAttack()
 	if(M_Attack_Basic && !IsBusy)
 	{
 		IsBusy=true;
+		AttackType = EAttackType::AT_Basic;
 		Cast<ASwordBasic>(GetPrimaryWeapon())->DamageArea->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		PlayAnimMontage(M_Attack_Basic);
 	}
@@ -45,6 +46,7 @@ void APaladinCharacter::FirstAbilityAttack()
 	if(M_Attack_First && !IsBusy)
 	{
 		IsBusy=true;
+		AttackType= EAttackType::AT_Ability1;
 		PlayAnimMontage(M_Attack_First);
 	}
 }
@@ -52,6 +54,7 @@ void APaladinCharacter::FirstAbilityAttack()
 void APaladinCharacter::SecondAbilityAttack()
 {
 	Super::SecondAbilityAttack();
+	AttackType= EAttackType::AT_Ability2;
 	if(M_Attack_Second && !IsBusy)
 	{
 		IsBusy=true;
