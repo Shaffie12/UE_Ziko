@@ -2,6 +2,7 @@
 #include "Actors/SwordBasic.h"
 #include "Characters/CharacterAnimInstance.h"
 #include "Engine.h"
+
 APaladinCharacter::APaladinCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -18,7 +19,6 @@ void APaladinCharacter::BeginPlay()
 void APaladinCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
 }
 
 void APaladinCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

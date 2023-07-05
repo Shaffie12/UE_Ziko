@@ -73,7 +73,7 @@ private:
 	/*Update character look direction*/
 	void UpdateLookDir();
 	/*Regenerate player power energy*/
-	void RegenerateEnergy(const float DeltaTime);
+	void RegenerateEnergy();
 
 protected:
 	/*Abilities Component*/
@@ -81,8 +81,10 @@ protected:
 	float BaseAttackWaitRate;
 	UPROPERTY(EditAnywhere, Category = "Ability Components")
 	float MaxEnergy;
+	UPROPERTY(EditAnywhere,Category = "Ability Components")
+	float EnergyRegenerateAmountPerTick;
 	UPROPERTY(EditDefaultsOnly, Category = "Ability Components")
-	float EnergyRegenerateRate;
+	float EnergyRegenerateTick;
 	
 	float EnergyVal;
 	EAttackType AttackType;
@@ -114,4 +116,7 @@ private:
 	TSet<AActor*> InteractablesInRange;
 	/*HitResult used for getting mouse position to UpdateLookDir()*/
 	FHitResult OutHit;
+	/*timers*/
+	FTimerHandle EnergyTickHandle;
+	
 };

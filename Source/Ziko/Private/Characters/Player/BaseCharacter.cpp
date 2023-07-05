@@ -12,12 +12,14 @@
 #include "Actors/MeleeOneHanded.h"
 #include "Characters/CharacterAnimInstance.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "UI/InGameHUD.h"
 
 // Sets default values
 ABaseCharacter::ABaseCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
 	
 	CameraSpringComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera Spring"));
 	CameraSpringComp->SetupAttachment(RootComponent);
@@ -28,9 +30,10 @@ ABaseCharacter::ABaseCharacter()
 	CameraSpringComp->TargetArmLength = 750.f;
 	CameraSpringComp->SetRelativeRotation(FRotator(-50.f, 0.f, 0.f));
 
-	MaxEnergy = -1.f;
-	EnergyRegenerateRate = -1.f;
-	EnergyVal = -1.f;
+	MaxEnergy = 100.f;
+	EnergyRegenerateAmountPerTick = 10.f;
+	EnergyRegenerateTick = 1.f;
+	EnergyVal = 0.f;
 
 	AttackType = EAttackType::AT_None;
 
@@ -44,7 +47,7 @@ void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	EnergyVal = MaxEnergy;
+	//EnergyVal = MaxEnergy;
 	PCController = Cast<APlayerCharacterController>(GetController());
 	check(PCController);
 
@@ -55,6 +58,8 @@ void ABaseCharacter::BeginPlay()
 	Weapon = GetWorld()->SpawnActor<ABaseWeapon>(StartWeapon);
 	check(Weapon);
 	Weapon->Pickup(this);
+	//may continue to tick even when energy capped
+	GetWorld()->GetTimerManager().SetTimer(EnergyTickHandle,this,&ABaseCharacter::RegenerateEnergy,EnergyRegenerateTick,true);
 }
 
 // Called every frame
@@ -62,7 +67,6 @@ void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	UpdateLookDir();
-	RegenerateEnergy(DeltaTime); //FIXME: Don't regenerate in Tick, use Timer mayb
 }
 
 // Called to bind functionality to input
@@ -188,9 +192,17 @@ void ABaseCharacter::SecondAbilityAttack()
 	EnergyVal -= AttackEnergyCost;
 }
 
-inline void ABaseCharacter::RegenerateEnergy(const float DeltaTime)
+inline void ABaseCharacter::RegenerateEnergy()
 {
-	EnergyVal = FMath::Clamp(EnergyVal + (EnergyRegenerateRate * DeltaTime), 0.f, MaxEnergy);
+	EnergyVal = FMath::Clamp(EnergyVal + EnergyRegenerateAmountPerTick, 0.f, MaxEnergy);
+	//wouldnt work with multiplayer
+	AInGameHUD* GameHUD = Cast<AInGameHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
+	if(GameHUD)
+	{
+		//basic math here to scale the min/max values between 0 and 1 for the slider.
+		const float EnergyPercent = EnergyVal/MaxEnergy;
+		GameHUD->UpdateEnergyBar(EnergyPercent);
+	}
 }
 
 bool ABaseCharacter::GetMouseLocation(FVector_NetQuantize& MousePos)
@@ -208,3 +220,4 @@ UClass* ABaseCharacter::GetInitialWeaponBp() const
 {
 	return StartWeapon;
 }
+
