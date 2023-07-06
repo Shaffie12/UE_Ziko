@@ -25,12 +25,13 @@ public:
 	void Tick(float DeltaSeconds) override;
 
 	UFUNCTION()
-	void UpdateEnergyBar(float amount);
+	void UpdateEnergyBar(float amount) const;
 
 	UPROPERTY(EditDefaultsOnly,Category="Widgets")
 	TSubclassOf<UUserWidget> EnergyWidgetClass;
 
 private:
+	UPROPERTY()
 	UEnergyWidget* EnergyWidget;
 	
 };

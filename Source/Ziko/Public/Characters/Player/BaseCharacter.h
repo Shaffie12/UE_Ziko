@@ -12,6 +12,7 @@ class APlayerCharacterController;
 class UCameraComponent;
 class USpringArmComponent;
 
+DECLARE_DELEGATE_OneParam(FEnergyTickRateChanged,float);
 
 UCLASS()
 class ZIKO_API ABaseCharacter : public ACharacter
@@ -50,6 +51,10 @@ public:
 
 	/*Returns true if getting mouse position was successful*/
 	bool GetMouseLocation(FVector_NetQuantize& MousePos);
+
+	void SetEnergyRechargeTick(float Value);
+
+	static FEnergyTickRateChanged EnergyTickRateChanged;
 	
 protected:
 	// Called when the game starts or when spawned

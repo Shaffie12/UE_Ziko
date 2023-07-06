@@ -14,11 +14,28 @@ class ZIKO_API UEnergyWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
+
+protected:
+	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+
+	
 public:
 	virtual void NativeConstruct() override;
-	void UpdateDisplayAmount(float amount) const;
+	void UpdateDisplayAmount(float amount);
+	void UpdateTTL(float NewTimeSpan);
+	
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,meta=(BindWidget))
 	class UProgressBar* EnergyAmountBar;
+	
+
+private:
+	float CurrentPercent;
+	float NextPercent;
+	float Elapsed;
+	float Ttl;
+
+
+	
 	
 };

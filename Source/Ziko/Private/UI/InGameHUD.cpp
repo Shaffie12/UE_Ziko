@@ -32,7 +32,7 @@ void AInGameHUD::Tick(float DeltaSeconds)
 	//we should display the energy as an interpolated amount.
 }
 
-void AInGameHUD::UpdateEnergyBar(float amount)
+void AInGameHUD::UpdateEnergyBar(float amount) const
 {
 	EnergyWidget->UpdateDisplayAmount(amount);
 }

@@ -14,6 +14,8 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "UI/InGameHUD.h"
 
+FEnergyTickRateChanged ABaseCharacter::EnergyTickRateChanged;
+
 // Sets default values
 ABaseCharacter::ABaseCharacter()
 {
@@ -192,7 +194,7 @@ void ABaseCharacter::SecondAbilityAttack()
 	EnergyVal -= AttackEnergyCost;
 }
 
-inline void ABaseCharacter::RegenerateEnergy()
+void ABaseCharacter::RegenerateEnergy()
 {
 	EnergyVal = FMath::Clamp(EnergyVal + EnergyRegenerateAmountPerTick, 0.f, MaxEnergy);
 	//wouldnt work with multiplayer
@@ -214,6 +216,12 @@ bool ABaseCharacter::GetMouseLocation(FVector_NetQuantize& MousePos)
 	MousePos = OutHit.ImpactPoint;
 	OutHit.Reset();
 	return true;
+}
+
+void ABaseCharacter::SetEnergyRechargeTick(float Value)
+{
+	EnergyRegenerateTick = Value;
+	EnergyTickRateChanged.Execute(Value);
 }
 
 UClass* ABaseCharacter::GetInitialWeaponBp() const
