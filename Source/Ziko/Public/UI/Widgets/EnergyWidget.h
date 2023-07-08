@@ -21,21 +21,13 @@ protected:
 	
 public:
 	virtual void NativeConstruct() override;
-	void UpdateDisplayAmount(float amount);
-	void UpdateTTL(float NewTimeSpan);
+	void SetFillAmount(float amount);
+	const float& GetFillAmount() const;
 	
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,meta=(BindWidget))
 	class UProgressBar* EnergyAmountBar;
 	
-
-private:
-	float CurrentPercent;
-	float NextPercent;
-	float Elapsed;
-	float Ttl;
-
-
 	
 	
 };

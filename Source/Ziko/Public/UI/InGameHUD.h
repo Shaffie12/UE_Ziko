@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Ziko/Public/LatentActions/FillEnergyBar.h"
 #include "GameFramework/HUD.h"
 #include "Components/WidgetComponent.h"
 #include "Widgets/EnergyWidget.h"
@@ -20,12 +21,16 @@ class ZIKO_API AInGameHUD : public AHUD
 public:
 	AInGameHUD();
 
-	void BeginPlay() override;
-	void DrawHUD() override;
-	void Tick(float DeltaSeconds) override;
+	virtual void BeginPlay() override;
+	virtual void DrawHUD() override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION()
 	void UpdateEnergyBar(float amount) const;
+	UFUNCTION()
+	const float& GetBarFillAmount() const;
+	UFUNCTION()
+	int32 GetActiveFillRoutineId() const {return ActiveEnergyFillRoutine;}
 
 	UPROPERTY(EditDefaultsOnly,Category="Widgets")
 	TSubclassOf<UUserWidget> EnergyWidgetClass;
@@ -33,5 +38,7 @@ public:
 private:
 	UPROPERTY()
 	UEnergyWidget* EnergyWidget;
+	
+	int32 ActiveEnergyFillRoutine;
 	
 };

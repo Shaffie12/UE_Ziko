@@ -170,6 +170,8 @@ void ABaseCharacter::BaseAttack()
 	const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
 	if (EnergyVal < AttackEnergyCost) return;
 	EnergyVal -= AttackEnergyCost;
+	
+	UpdateEnergyLevel();
 }
 
 void ABaseCharacter::FirstAbilityAttack()
@@ -179,9 +181,6 @@ void ABaseCharacter::FirstAbilityAttack()
 	const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
 	if (EnergyVal < AttackEnergyCost) return;
 	EnergyVal -= AttackEnergyCost;
-	
-	
-	
 }
 
 void ABaseCharacter::SecondAbilityAttack()
@@ -198,6 +197,12 @@ void ABaseCharacter::RegenerateEnergy()
 {
 	EnergyVal = FMath::Clamp(EnergyVal + EnergyRegenerateAmountPerTick, 0.f, MaxEnergy);
 	//wouldnt work with multiplayer
+	UpdateEnergyLevel();
+	
+}
+
+void ABaseCharacter::UpdateEnergyLevel()
+{
 	AInGameHUD* GameHUD = Cast<AInGameHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
 	if(GameHUD)
 	{

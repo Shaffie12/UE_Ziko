@@ -1,4 +1,4 @@
-﻿#include "SpawnWave.h"
+﻿#include "Ziko/Public/LatentActions/SpawnWave.h"
 
 void SpawnWave::UpdateOperation(FLatentResponse& Response)
 {

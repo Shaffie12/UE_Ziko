@@ -1,10 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "UI/InGameHUD.h"
 
-AInGameHUD::AInGameHUD()
+AInGameHUD::AInGameHUD() 
 {
+	
 }
 
 void AInGameHUD::BeginPlay()
@@ -17,13 +16,15 @@ void AInGameHUD::BeginPlay()
 		{
 			EnergyWidget->AddToViewport();
 		}
+		ActiveEnergyFillRoutine = 5;
+		GetWorld()->GetLatentActionManager().AddNewAction(this,ActiveEnergyFillRoutine,
+			new FillEnergyBar(this));
 	}
 }
 
 void AInGameHUD::DrawHUD()
 {
 	Super::DrawHUD();
-	
 }
 
 void AInGameHUD::Tick(float DeltaSeconds)
@@ -34,5 +35,10 @@ void AInGameHUD::Tick(float DeltaSeconds)
 
 void AInGameHUD::UpdateEnergyBar(float amount) const
 {
-	EnergyWidget->UpdateDisplayAmount(amount);
+	EnergyWidget->SetFillAmount(amount);
+}
+
+const float& AInGameHUD::GetBarFillAmount() const
+{
+	return EnergyWidget->GetFillAmount();
 }

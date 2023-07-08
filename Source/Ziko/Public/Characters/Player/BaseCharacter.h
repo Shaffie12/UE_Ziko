@@ -77,8 +77,10 @@ private:
 	void Interact();
 	/*Update character look direction*/
 	void UpdateLookDir();
-	/*Regenerate player power energy*/
+	/*Regenerate player power energy passively*/
 	void RegenerateEnergy();
+	//update the hud when energy is spent
+	void UpdateEnergyLevel();
 
 protected:
 	/*Abilities Component*/
