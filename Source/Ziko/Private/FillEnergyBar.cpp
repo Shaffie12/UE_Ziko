@@ -3,16 +3,20 @@
 
 void FillEnergyBar::UpdateOperation(FLatentResponse& Response)
 {
-	/*if(HUD->GetBarFillAmount()!=DesiredFillAmount)
+	if(FillWidget)
 	{
-		Elapsed+=DT;
-		if(DesiredFillAmount > HUD->GetBarFillAmount())
-			HUD->UpdateEnergyBar(FMath::Lerp(HUD->GetBarFillAmount(),DesiredFillAmount,Elapsed/1.0f));
-		else
-			HUD->UpdateEnergyBar(FMath::Lerp(DesiredFillAmount,HUD->GetBarFillAmount(),Elapsed/1.0f));
+		if(FillWidget->GetFillAmount()!=DesiredFillAmount)
+		{
+			Elapsed+=DT;
+			if(DesiredFillAmount > FillWidget->GetFillAmount())
+				FillWidget->SetFillAmount(FMath::Lerp(FillWidget->GetFillAmount(),DesiredFillAmount,Elapsed/1.0f));
+			else
+				FillWidget->SetFillAmount(FMath::Lerp(DesiredFillAmount,FillWidget->GetFillAmount(),Elapsed/1.0f));
 			
+		}
 	}
-	Response.DoneIf(HUD->GetBarFillAmount()==DesiredFillAmount)*/;
+	
+	Response.DoneIf(FillWidget->GetFillAmount()==DesiredFillAmount);
 		
 }
 

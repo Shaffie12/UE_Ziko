@@ -14,7 +14,6 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "UI/InGameHUD.h"
 
-FEnergyTickRateChanged ABaseCharacter::EnergyTickRateChanged;
 
 // Sets default values
 ABaseCharacter::ABaseCharacter()
@@ -60,7 +59,7 @@ void ABaseCharacter::BeginPlay()
 	Weapon = GetWorld()->SpawnActor<ABaseWeapon>(StartWeapon);
 	check(Weapon);
 	Weapon->Pickup(this);
-	//may continue to tick even when energy capped
+	
 	GetWorld()->GetTimerManager().SetTimer(EnergyTickHandle,this,&ABaseCharacter::RegenerateEnergy,EnergyRegenerateTick,true);
 }
 
@@ -170,8 +169,7 @@ void ABaseCharacter::BaseAttack()
 	const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
 	if (EnergyVal < AttackEnergyCost) return;
 	EnergyVal -= AttackEnergyCost;
-	
-	UpdateEnergyLevel();
+	EnergyLevelChanged.Execute(EnergyVal/MaxEnergy);
 }
 
 void ABaseCharacter::FirstAbilityAttack()
@@ -196,21 +194,11 @@ void ABaseCharacter::SecondAbilityAttack()
 void ABaseCharacter::RegenerateEnergy()
 {
 	EnergyVal = FMath::Clamp(EnergyVal + EnergyRegenerateAmountPerTick, 0.f, MaxEnergy);
-	//wouldnt work with multiplayer
-	UpdateEnergyLevel();
+	EnergyLevelChanged.Execute(EnergyVal/MaxEnergy);
+	//GEngine->AddOnScreenDebugMessage(-1,1.0f,FColor::Cyan,FString::Printf(TEXT("ENERGY: %f"),EnergyVal));
 	
 }
 
-void ABaseCharacter::UpdateEnergyLevel()
-{
-	AInGameHUD* GameHUD = Cast<AInGameHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
-	if(GameHUD)
-	{
-		//basic math here to scale the min/max values between 0 and 1 for the slider.
-		const float EnergyPercent = EnergyVal/MaxEnergy;
-		GameHUD->UpdateEnergyBar(EnergyPercent);
-	}
-}
 
 bool ABaseCharacter::GetMouseLocation(FVector_NetQuantize& MousePos)
 {

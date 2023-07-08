@@ -13,6 +13,7 @@ class UCameraComponent;
 class USpringArmComponent;
 
 DECLARE_DELEGATE_OneParam(FEnergyTickRateChanged,float);
+DECLARE_DELEGATE_OneParam(FEnergyLevelChanged,float);
 
 UCLASS()
 class ZIKO_API ABaseCharacter : public ACharacter
@@ -53,8 +54,11 @@ public:
 	bool GetMouseLocation(FVector_NetQuantize& MousePos);
 
 	void SetEnergyRechargeTick(float Value);
+	const  float& GetMaxEnergy() const {return MaxEnergy;}
+	const float& GetEnergyAmount() const { return EnergyVal;}
 
-	static FEnergyTickRateChanged EnergyTickRateChanged;
+	FEnergyTickRateChanged EnergyTickRateChanged;
+	FEnergyLevelChanged EnergyLevelChanged;
 	
 protected:
 	// Called when the game starts or when spawned
@@ -79,8 +83,6 @@ private:
 	void UpdateLookDir();
 	/*Regenerate player power energy passively*/
 	void RegenerateEnergy();
-	//update the hud when energy is spent
-	void UpdateEnergyLevel();
 
 protected:
 	/*Abilities Component*/

@@ -9,19 +9,19 @@
 /**
  * 
  */
-class ZIKO_API FillEnergyBar : public FPendingLatentAction
-{
-	
-	AInGameHUD* HUD;
+class UEnergyWidget;
 
-	/*AInGameHUD* HUD;
-	float DesiredFillAmount; /*Should be value between 0...1#1#
+class FillEnergyBar : public FPendingLatentAction
+{
+	int32 Id;
+	UEnergyWidget* FillWidget;
+	float DesiredFillAmount; /*Should be value between 0...1*/
 	float& DT;
-	float Elapsed;*/
+	float Elapsed;
 	
 public:
-	FillEnergyBar(AInGameHUD* Hud)
-	: HUD(Hud) {};
+	FillEnergyBar(int32 UUID, UEnergyWidget* Widget,float DesiredFill, float& DeltaTime)
+	: Id(UUID),FillWidget(Widget), DesiredFillAmount(DesiredFill), DT(DeltaTime), Elapsed(0.f){};
 
 	virtual void UpdateOperation(FLatentResponse& Response) override;
 	

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Ziko/Public/LatentActions/FillEnergyBar.h"
 #include "EnergyWidget.generated.h"
 
 /**
@@ -15,6 +16,7 @@ class ZIKO_API UEnergyWidget : public UUserWidget
 	GENERATED_BODY()
 
 
+	void FillBar(float amount);
 protected:
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 

@@ -29,7 +29,8 @@ void APaladinCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 void APaladinCharacter::BaseAttack()
 {
 	Super::BaseAttack();
-	
+	const int8 AttackEnergyCost = GetPrimaryWeapon()->GetAttackCost(EAttackType::AT_Basic);
+	if (EnergyVal < AttackEnergyCost) return;
 	if(M_Attack_Basic && !IsBusy)
 	{
 		Aura->Deactivate();
