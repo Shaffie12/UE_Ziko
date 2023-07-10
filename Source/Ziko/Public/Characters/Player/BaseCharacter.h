@@ -13,7 +13,7 @@ class UCameraComponent;
 class USpringArmComponent;
 
 DECLARE_DELEGATE_OneParam(FEnergyTickRateChanged,float);
-DECLARE_DELEGATE_OneParam(FEnergyLevelChanged,float);
+DECLARE_DELEGATE_TwoParams(FEnergyLevelChanged,float,bool);
 
 UCLASS()
 class ZIKO_API ABaseCharacter : public ACharacter
@@ -84,6 +84,9 @@ private:
 	/*Regenerate player power energy passively*/
 	void RegenerateEnergy();
 
+public:
+	FTimerHandle EnergyTickHandle;
+
 protected:
 	/*Abilities Component*/
 	UPROPERTY(EditAnywhere, Category = "Ability Components")
@@ -126,6 +129,6 @@ private:
 	/*HitResult used for getting mouse position to UpdateLookDir()*/
 	FHitResult OutHit;
 	/*timers*/
-	FTimerHandle EnergyTickHandle;
+	
 	
 };

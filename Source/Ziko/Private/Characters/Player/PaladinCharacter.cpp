@@ -38,6 +38,7 @@ void APaladinCharacter::BaseAttack()
 		AttackType = EAttackType::AT_Basic;
 		Cast<ASwordBasic>(GetPrimaryWeapon())->DamageArea->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		PlayAnimMontage(M_Attack_Basic);
+		GEngine->AddOnScreenDebugMessage(-1,1.0f,FColor::Magenta,FString::Printf(TEXT("ENERGY: %f"),EnergyVal));
 		
 	}
 	

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Ziko/Public/LatentActions/FillEnergyBar.h"
+#include "Characters/Player/BaseCharacter.h"
 #include "EnergyWidget.generated.h"
 
 /**
@@ -17,19 +17,24 @@ class ZIKO_API UEnergyWidget : public UUserWidget
 
 
 	void FillBar(float amount);
+	float DesiredFill;
+	float CurrentFill;
+	float Elapsed;
+	bool Filling;
+	UPROPERTY()
+	ABaseCharacter* Player;
+	
 protected:
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 	
 public:
 	virtual void NativeConstruct() override;
-	void SetFillAmount(float amount);
+	void SetFillAmount(float Amount,bool Regen);
 	const float& GetFillAmount() const;
 	
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,meta=(BindWidget))
 	class UProgressBar* EnergyAmountBar;
-	
-	
 	
 };

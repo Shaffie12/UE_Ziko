@@ -168,8 +168,9 @@ void ABaseCharacter::BaseAttack()
 	const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
 	const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
 	if (EnergyVal < AttackEnergyCost) return;
+	GetWorld()->GetTimerManager().PauseTimer(EnergyTickHandle);
 	EnergyVal -= AttackEnergyCost;
-	EnergyLevelChanged.Execute(EnergyVal/MaxEnergy);
+	EnergyLevelChanged.Execute(EnergyVal/MaxEnergy,false);
 }
 
 void ABaseCharacter::FirstAbilityAttack()
@@ -194,8 +195,8 @@ void ABaseCharacter::SecondAbilityAttack()
 void ABaseCharacter::RegenerateEnergy()
 {
 	EnergyVal = FMath::Clamp(EnergyVal + EnergyRegenerateAmountPerTick, 0.f, MaxEnergy);
-	EnergyLevelChanged.Execute(EnergyVal/MaxEnergy);
-	//GEngine->AddOnScreenDebugMessage(-1,1.0f,FColor::Cyan,FString::Printf(TEXT("ENERGY: %f"),EnergyVal));
+	EnergyLevelChanged.Execute(EnergyVal/MaxEnergy,true);
+	GEngine->AddOnScreenDebugMessage(-1,1.0f,FColor::Cyan,FString::Printf(TEXT("ENERGY: %f"),EnergyVal));
 	
 }
 

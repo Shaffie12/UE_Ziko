@@ -9,15 +9,27 @@
 void UEnergyWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	ABaseCharacter* Player = Cast<ABaseCharacter>(GetWorld()->GetFirstPlayerController()->GetCharacter());
+	DesiredFill=0.f;
+	Filling=true;
+	Player = Cast<ABaseCharacter>(GetWorld()->GetFirstPlayerController()->GetCharacter());
 	if(Player)
-		Player->EnergyLevelChanged.BindUObject(this,&UEnergyWidget::FillBar);
+		Player->EnergyLevelChanged.BindUObject(this,&UEnergyWidget::SetFillAmount);
 	
 }
 
- void UEnergyWidget::SetFillAmount(float amount) 
+ void UEnergyWidget::SetFillAmount(float Amount, bool Regen) 
 {
-	EnergyAmountBar->SetPercent(amount);
+	Filling = Regen;
+	CurrentFill = EnergyAmountBar->Percent;
+	DesiredFill = Amount;
+	Elapsed=0.f;
+	if(!Regen)
+	{
+		EnergyAmountBar->SetPercent(Amount);
+		GetWorld()->GetTimerManager().UnPauseTimer(Player->EnergyTickHandle);
+	}
+		
+	//we have to make sure the timer pauses when this happens
 }
 
 const float& UEnergyWidget::GetFillAmount() const
@@ -25,17 +37,15 @@ const float& UEnergyWidget::GetFillAmount() const
 	return EnergyAmountBar->Percent;
 }
 
-//coroutine to fill the bar up over time, when an event is called
-void UEnergyWidget::FillBar(float amount)
-{
-	FillEnergyBar* Action = GetWorld()->GetLatentActionManager().FindExistingAction<FillEnergyBar>(this,1);
-	if(!Action)
-		GetWorld()->GetLatentActionManager().AddNewAction(this,1,
-		new FillEnergyBar(1,this,amount,GetWorld()->DeltaTimeSeconds));
-}
-
 void UEnergyWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
+	if(EnergyAmountBar->Percent!=1.0f && Filling)
+	{
+		Elapsed+=InDeltaTime;
+		EnergyAmountBar->SetPercent( FMath::Lerp(CurrentFill,DesiredFill,Elapsed/1.0f));
+		
+	}
+	
 }
 

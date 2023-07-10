@@ -31,8 +31,5 @@ void AInGameHUD::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 }
 
-void AInGameHUD::UpdateEnergyBar(float amount) const
-{
-	EnergyWidget->SetFillAmount(amount);
-}
+
 

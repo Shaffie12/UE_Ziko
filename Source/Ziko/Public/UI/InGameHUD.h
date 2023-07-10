@@ -20,10 +20,6 @@ public:
 	virtual void BeginPlay() override;
 	virtual void DrawHUD() override;
 	virtual void Tick(float DeltaSeconds) override;
-
-	UFUNCTION()
-	void UpdateEnergyBar(float amount) const;
-	
 	
 	UPROPERTY(EditDefaultsOnly,Category="Widgets")
 	TSubclassOf<UUserWidget> EnergyWidgetClass;
