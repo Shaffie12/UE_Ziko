@@ -87,7 +87,7 @@ protected:
 	float EnergyVal;
 	EAttackType AttackType;
 	bool bIsAlive;
-
+	bool CanDoAttack;
 	FTimerHandle AttackTimer;
 	
 private:
@@ -114,4 +114,8 @@ private:
 	TSet<AActor*> InteractablesInRange;
 	/*HitResult used for getting mouse position to UpdateLookDir()*/
 	FHitResult OutHit;
+
+	
+	
+	
 };

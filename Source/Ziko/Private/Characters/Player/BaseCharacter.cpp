@@ -18,6 +18,7 @@ ABaseCharacter::ABaseCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	CanDoAttack = true;
 	
 	CameraSpringComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera Spring"));
 	CameraSpringComp->SetupAttachment(RootComponent);
@@ -162,8 +163,16 @@ void ABaseCharacter::BaseAttack()
 	if(!IsArmed())return;
 	const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
 	const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
-	if (EnergyVal < AttackEnergyCost) return;
+	if (EnergyVal < AttackEnergyCost)
+	{
+		CanDoAttack = false;
+		return;
+	}
+	CanDoAttack=true;
 	EnergyVal -= AttackEnergyCost;
+	GetWorld()->GetTimerManager().PauseTimer(EnergyTickHandle);
+	EnergyLevelChanged.Execute(EnergyVal/MaxEnergy,false);
+	//GEngine->AddOnScreenDebugMessage(-1,1.0f,FColor::Magenta,FString::Printf(TEXT("ENERGY: %f"),EnergyVal));
 }
 
 void ABaseCharacter::FirstAbilityAttack()
@@ -190,7 +199,9 @@ void ABaseCharacter::SecondAbilityAttack()
 
 inline void ABaseCharacter::RegenerateEnergy(const float DeltaTime)
 {
-	EnergyVal = FMath::Clamp(EnergyVal + (EnergyRegenerateRate * DeltaTime), 0.f, MaxEnergy);
+	EnergyVal = FMath::Clamp(EnergyVal + EnergyRegenerateAmountPerTick, 0.f, MaxEnergy);
+	EnergyLevelChanged.Execute(EnergyVal/MaxEnergy,true);
+	
 }
 
 bool ABaseCharacter::GetMouseLocation(FVector_NetQuantize& MousePos)

@@ -12,6 +12,7 @@ APaladinCharacter::APaladinCharacter()
 void APaladinCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	Channelling=false;
 	Aura=FindComponentByClass<UParticleSystemComponent>();
 }
 
@@ -29,14 +30,15 @@ void APaladinCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 void APaladinCharacter::BaseAttack()
 {
 	Super::BaseAttack();
-	
-	if(M_Attack_Basic && !IsBusy)
+	if(M_Attack_Basic && !IsBusy && CanDoAttack)
 	{
 		Aura->Deactivate();
 		IsBusy=true;
+		Channelling=false;
 		AttackType = EAttackType::AT_Basic;
 		Cast<ASwordBasic>(GetPrimaryWeapon())->DamageArea->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		PlayAnimMontage(M_Attack_Basic);
+		
 		
 	}
 	
@@ -45,23 +47,28 @@ void APaladinCharacter::BaseAttack()
 void APaladinCharacter::FirstAbilityAttack()
 {
 	Super::FirstAbilityAttack();
-	if(M_Attack_First && !IsBusy)
+	if(M_Attack_First && !IsBusy && CanDoAttack && !Channelling)
 	{
 		IsBusy=true;
+		Channelling = true;
 		Aura->Activate();
 		AttackType= EAttackType::AT_Ability1;
 		PlayAnimMontage(M_Attack_First);
+		//GetWorld()->GetLatentActionManager().AddNewAction(this,1,
+			//new CompileDamage(this));
 	}
 }
 
 void APaladinCharacter::SecondAbilityAttack()
 {
 	Super::SecondAbilityAttack();
-	Aura->Deactivate();
-	AttackType= EAttackType::AT_Ability2;
-	if(M_Attack_Second && !IsBusy)
+	
+	if(M_Attack_Second && !IsBusy && CanDoAttack)
 	{
 		IsBusy=true;
+		Channelling=false;
+		Aura->Deactivate();
+		AttackType= EAttackType::AT_Ability2;
 		PlayAnimMontage(M_Attack_Second);
 		
 	}
