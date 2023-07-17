@@ -12,6 +12,8 @@
 #include "Actors/MeleeOneHanded.h"
 #include "Characters/CharacterAnimInstance.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "UI/InGameHUD.h"
+
 
 // Sets default values
 ABaseCharacter::ABaseCharacter()
@@ -19,6 +21,7 @@ ABaseCharacter::ABaseCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	CanDoAttack = true;
+	
 	
 	CameraSpringComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera Spring"));
 	CameraSpringComp->SetupAttachment(RootComponent);
@@ -29,9 +32,10 @@ ABaseCharacter::ABaseCharacter()
 	CameraSpringComp->TargetArmLength = 750.f;
 	CameraSpringComp->SetRelativeRotation(FRotator(-50.f, 0.f, 0.f));
 
-	MaxEnergy = -1.f;
-	EnergyRegenerateRate = -1.f;
-	EnergyVal = -1.f;
+	MaxEnergy = 100.f;
+	EnergyRegenerateAmountPerTick = 10.f;
+	EnergyRegenerateTick = 1.f;
+	EnergyVal = 0.f;
 
 	AttackType = EAttackType::AT_None;
 
@@ -45,7 +49,7 @@ void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	EnergyVal = MaxEnergy;
+	//EnergyVal = MaxEnergy;
 	PCController = Cast<APlayerCharacterController>(GetController());
 	check(PCController);
 
@@ -56,6 +60,8 @@ void ABaseCharacter::BeginPlay()
 	Weapon = GetWorld()->SpawnActor<ABaseWeapon>(StartWeapon);
 	check(Weapon);
 	Weapon->Pickup(this);
+	
+	GetWorld()->GetTimerManager().SetTimer(EnergyTickHandle,this,&ABaseCharacter::RegenerateEnergy,EnergyRegenerateTick,true);
 }
 
 // Called every frame
@@ -63,7 +69,6 @@ void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	UpdateLookDir();
-	RegenerateEnergy(DeltaTime); //FIXME: Don't regenerate in Tick, use Timer mayb
 }
 
 // Called to bind functionality to input
@@ -182,9 +187,6 @@ void ABaseCharacter::FirstAbilityAttack()
 	const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
 	if (EnergyVal < AttackEnergyCost) return;
 	EnergyVal -= AttackEnergyCost;
-	
-	
-	
 }
 
 void ABaseCharacter::SecondAbilityAttack()
@@ -197,12 +199,13 @@ void ABaseCharacter::SecondAbilityAttack()
 	EnergyVal -= AttackEnergyCost;
 }
 
-inline void ABaseCharacter::RegenerateEnergy(const float DeltaTime)
+void ABaseCharacter::RegenerateEnergy()
 {
 	EnergyVal = FMath::Clamp(EnergyVal + EnergyRegenerateAmountPerTick, 0.f, MaxEnergy);
 	EnergyLevelChanged.Execute(EnergyVal/MaxEnergy,true);
 	
 }
+
 
 bool ABaseCharacter::GetMouseLocation(FVector_NetQuantize& MousePos)
 {
@@ -215,7 +218,14 @@ bool ABaseCharacter::GetMouseLocation(FVector_NetQuantize& MousePos)
 	return true;
 }
 
+void ABaseCharacter::SetEnergyRechargeTick(float Value)
+{
+	EnergyRegenerateTick = Value;
+	EnergyTickRateChanged.Execute(Value);
+}
+
 UClass* ABaseCharacter::GetInitialWeaponBp() const
 {
 	return StartWeapon;
 }
+

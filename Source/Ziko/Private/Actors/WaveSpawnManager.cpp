@@ -3,17 +3,17 @@
 #include "Actors/WaveSpawnManager.h"
 #include "LatentActions/SpawnWave.h" 
 
-/**
- * need a delegate to check when all enemies are killed.
- */
+AWaveSpawnManager::AWaveSpawnManager()
+{
+	ABaseEnemy::EnemyDead.BindUObject(this,&AWaveSpawnManager::DecreaseEnemyCount);
+}
+
 void AWaveSpawnManager::BeginPlay()
 {
 	AActor::BeginPlay();
 	TArray<TSubclassOf<ABaseEnemy>> List = EnemyBPs;
 	EnemiesAlive = MaxEnemies;
 	GetWorld()->GetLatentActionManager().AddNewAction(this,1, new SpawnWave(this,MaxEnemies,GetWorld()->DeltaTimeSeconds));
-	ABaseEnemy::EnemyDead.BindUObject(this,&AWaveSpawnManager::DecreaseEnemyCount);
-	
 }
 
 //game will crash when this is called if the enemy was not spawned by the manager
@@ -26,6 +26,7 @@ void AWaveSpawnManager::DecreaseEnemyCount()
 		EnemiesAlive = MaxEnemies;
 	}
 }
+
 
 TSubclassOf<ABaseEnemy> AWaveSpawnManager::GetEnemyType() const
 {

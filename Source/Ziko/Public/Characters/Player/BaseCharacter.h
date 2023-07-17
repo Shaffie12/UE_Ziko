@@ -12,6 +12,8 @@ class APlayerCharacterController;
 class UCameraComponent;
 class USpringArmComponent;
 
+DECLARE_DELEGATE_OneParam(FEnergyTickRateChanged,float);
+DECLARE_DELEGATE_TwoParams(FEnergyLevelChanged,float,bool);
 
 UCLASS()
 class ZIKO_API ABaseCharacter : public ACharacter
@@ -50,6 +52,13 @@ public:
 
 	/*Returns true if getting mouse position was successful*/
 	bool GetMouseLocation(FVector_NetQuantize& MousePos);
+
+	void SetEnergyRechargeTick(float Value);
+	const  float& GetMaxEnergy() const {return MaxEnergy;}
+	const float& GetEnergyAmount() const { return EnergyVal;}
+
+	FEnergyTickRateChanged EnergyTickRateChanged;
+	FEnergyLevelChanged EnergyLevelChanged;
 	
 protected:
 	// Called when the game starts or when spawned
@@ -72,8 +81,11 @@ private:
 	void Interact();
 	/*Update character look direction*/
 	void UpdateLookDir();
-	/*Regenerate player power energy*/
-	void RegenerateEnergy(const float DeltaTime);
+	/*Regenerate player power energy passively*/
+	void RegenerateEnergy();
+
+public:
+	FTimerHandle EnergyTickHandle;
 
 protected:
 	/*Abilities Component*/
@@ -81,8 +93,10 @@ protected:
 	float BaseAttackWaitRate;
 	UPROPERTY(EditAnywhere, Category = "Ability Components")
 	float MaxEnergy;
+	UPROPERTY(EditAnywhere,Category = "Ability Components")
+	float EnergyRegenerateAmountPerTick;
 	UPROPERTY(EditDefaultsOnly, Category = "Ability Components")
-	float EnergyRegenerateRate;
+	float EnergyRegenerateTick;
 	
 	float EnergyVal;
 	EAttackType AttackType;

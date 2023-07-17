@@ -19,6 +19,7 @@ class ZIKO_API AWaveSpawnManager: public AActor
 	virtual void BeginPlay() override;
 	void DecreaseEnemyCount(); 
 public:
+	AWaveSpawnManager();
 	TSubclassOf<ABaseEnemy> GetEnemyType() const;
 	FVector GetNextSpawnPos() const;
 };

@@ -2,6 +2,7 @@
 #include "Actors/SwordBasic.h"
 #include "Characters/CharacterAnimInstance.h"
 #include "Engine.h"
+
 APaladinCharacter::APaladinCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -19,7 +20,6 @@ void APaladinCharacter::BeginPlay()
 void APaladinCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
 }
 
 void APaladinCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -38,6 +38,7 @@ void APaladinCharacter::BaseAttack()
 		AttackType = EAttackType::AT_Basic;
 		Cast<ASwordBasic>(GetPrimaryWeapon())->DamageArea->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		PlayAnimMontage(M_Attack_Basic);
+		GEngine->AddOnScreenDebugMessage(-1,1.0f,FColor::Magenta,FString::Printf(TEXT("ENERGY: %f"),EnergyVal));
 		
 		
 	}
