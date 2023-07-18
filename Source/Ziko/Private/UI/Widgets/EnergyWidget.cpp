@@ -28,8 +28,6 @@ void UEnergyWidget::NativeConstruct()
 		EnergyAmountBar->SetPercent(Amount);
 		GetWorld()->GetTimerManager().UnPauseTimer(Player->EnergyTickHandle);
 	}
-		
-	//we have to make sure the timer pauses when this happens
 }
 
 const float& UEnergyWidget::GetFillAmount() const

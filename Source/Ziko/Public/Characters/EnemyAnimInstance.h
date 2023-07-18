@@ -44,5 +44,4 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation Properties")
 	bool Stunned;
 	
-	
 };

@@ -34,7 +34,7 @@ void ASwordBasic::ApplyDamageOnOverlap(UPrimitiveComponent* OverlappedComponent,
 		if(!Player->AppliedDamage)
 		{
 			//check if other actor can be damaged
-			UGameplayStatics::ApplyDamage(OtherActor,10.0f,
+			UGameplayStatics::ApplyDamage(OtherActor,GetAttackDamage(Player->GetAttackState()),
 GetWorld()->GetFirstPlayerController(),this,UDamageType::StaticClass());
 			Player->AppliedDamage=true;
 		}

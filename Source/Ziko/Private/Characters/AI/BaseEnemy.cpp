@@ -10,8 +10,10 @@ ABaseEnemy::ABaseEnemy()
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 	HealthComp = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Comp"));
+	bAggro=false;
+	bAttacking=false;
+	bInPlayerRange=false;
 }
 
 // Called when the game starts or when spawned
@@ -23,8 +25,9 @@ void ABaseEnemy::BeginPlay()
 
 void ABaseEnemy::OnDestroy()
 {
+	PlayAnimMontage(DeathAnimation);
 	EnemyDead.Execute();
-	UE_LOG(LogTemp,Warning,TEXT("ENEMY KILLED."))
+	
 }
 
 // Called every frame
@@ -50,6 +53,37 @@ float ABaseEnemy::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent
 		verify(Destroy() == true);
 	}
 	return Damage;
+	//what is destroying it?
 }
 
 bool ABaseEnemy::IsAlive() const { return HealthComp->IsAlive(); }
+
+bool ABaseEnemy::IsAggro() const
+{
+	return bAggro;
+}
+
+bool ABaseEnemy::IsAttacking() const
+{
+	return bAttacking;
+}
+
+bool ABaseEnemy::IsInRange() const
+{
+	return bInPlayerRange;
+}
+
+void ABaseEnemy::SetAggro(bool Value)
+{
+	bAggro = Value;
+}
+
+void ABaseEnemy::SetAttacking(bool Value)
+{
+	bAttacking=Value;
+}
+
+void ABaseEnemy::SetInRange(bool Value)
+{
+	bInPlayerRange=Value;
+}

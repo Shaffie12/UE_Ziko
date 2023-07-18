@@ -30,11 +30,16 @@ void UEnemyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 void UEnemyAnimInstance::UpdateAnimAttributes()
 {
-	const FVector& Velocity = Character->GetVelocity();
+	if(Character && Target) //target nullref https://youtu.be/-t3PbGRazKg?t=1268
+	{
+		const FVector& Velocity = Character->GetVelocity();
 	
-	Speed = Velocity.Size();
-	RotationAngle = GetRotationAngle(Velocity);
-	//fix aggro anim
+		Speed = Velocity.Size();
+		RotationAngle = GetRotationAngle(Velocity);
+		Aggro = (Character->GetActorLocation() - Target->GetActorLocation()).Size() < 15.0f;
+	}
+	
+
 	
 }
 

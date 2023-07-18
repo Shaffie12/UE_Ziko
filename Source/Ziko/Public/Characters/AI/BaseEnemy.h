@@ -28,12 +28,38 @@ public:
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
 		AActor* DamageCauser) override;
 
+	UFUNCTION(BlueprintCallable)
 	bool IsAlive() const;
-	static FOnDestroySignature EnemyDead;
+	UFUNCTION(BlueprintCallable)
+	bool IsAggro() const;
+	UFUNCTION(BlueprintCallable)
+	bool IsAttacking() const;
+	UFUNCTION(BlueprintCallable)
+	bool IsInRange() const;
 	
+	
+	void SetAggro(bool Value);
+	void SetAttacking(bool Value);
+	void SetInRange(bool Value);
+
 
 private:
 	UPROPERTY(EditDefaultsOnly)
 	class UHealthComponent* HealthComp;
+
+protected:
+	bool bAttacking;
+	bool bAggro;
+	bool bInPlayerRange;
+
+public:
+	static FOnDestroySignature EnemyDead;
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Animations")
+	UAnimMontage* DeathAnimation;
+	
+	
+	
+	
+	
 	
 };
