@@ -19,7 +19,10 @@ public:
 
 protected:
 	virtual void NativeInitializeAnimation() override;
+	virtual void NativeBeginPlay() override;
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+	
+	
 
 private:
 	void UpdateAnimAttributes();
@@ -30,7 +33,7 @@ protected:
 	ABaseCharacter* Target;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category="Animation Properties")
-	ABaseEnemy* Character;
+	ABaseEnemy* Self;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation Properties")
 	float Speed;
