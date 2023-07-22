@@ -32,11 +32,10 @@ void AAIManager::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 
 	check(PlayerPawn);
-	BlackBoardComp->SetValueAsVector(PlayerPosKey, PlayerPawn->GetActorLocation());
+	const FVector PlayerPos = PlayerPawn->GetActorLocation();
+	BlackBoardComp->SetValueAsVector(PlayerPosKey, PlayerPos);
 	
-	const bool InAggroRange = (Self->GetActorLocation() - PlayerPawn->GetActorLocation()).Size() <= 15.0f;
-	BlackBoardComp->SetValueAsBool(AggroKey,InAggroRange);
-	Self->SetAggro(InAggroRange);
+	BlackBoardComp->SetValueAsBool(AggroKey,(Self->IsInRange(PlayerPos)));
 	
 
 	

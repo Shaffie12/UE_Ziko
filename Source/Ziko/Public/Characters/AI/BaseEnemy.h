@@ -31,26 +31,20 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsAlive() const;
 	UFUNCTION(BlueprintCallable)
-	bool IsAggro() const;
-	UFUNCTION(BlueprintCallable)
 	bool IsAttacking() const;
 	UFUNCTION(BlueprintCallable)
-	bool IsInRange() const;
+	bool IsInRange(const FVector Other) const;
 	
-	
-	void SetAggro(bool Value);
 	void SetAttacking(bool Value);
-	void SetInRange(bool Value);
-
 
 private:
 	UPROPERTY(EditDefaultsOnly)
 	class UHealthComponent* HealthComp;
 
 protected:
+	float AggroRange = 1000.0f;
 	bool bAttacking;
 	bool bAggro;
-	bool bInPlayerRange;
 
 public:
 	static FOnDestroySignature EnemyDead;

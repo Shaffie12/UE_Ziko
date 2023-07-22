@@ -43,8 +43,7 @@ void UEnemyAnimInstance::UpdateAnimAttributes()
 
 	Speed = Velocity.Size();
 	RotationAngle = GetRotationAngle(Velocity);
-	const float Distance = (Self->GetActorLocation() - Target->GetActorLocation()).Size();
-	Aggro = Distance < 1000.0f;
+	Aggro = Self->IsInRange(Target->GetActorLocation());
 	
 	
 }

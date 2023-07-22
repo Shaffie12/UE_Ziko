@@ -13,7 +13,6 @@ ABaseEnemy::ABaseEnemy()
 	HealthComp = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Comp"));
 	bAggro=false;
 	bAttacking=false;
-	bInPlayerRange=false;
 }
 
 // Called when the game starts or when spawned
@@ -58,32 +57,17 @@ float ABaseEnemy::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent
 
 bool ABaseEnemy::IsAlive() const { return HealthComp->IsAlive(); }
 
-bool ABaseEnemy::IsAggro() const
-{
-	return bAggro;
-}
-
 bool ABaseEnemy::IsAttacking() const
 {
 	return bAttacking;
 }
 
-bool ABaseEnemy::IsInRange() const
+bool ABaseEnemy::IsInRange(const FVector Other) const
 {
-	return bInPlayerRange;
-}
-
-void ABaseEnemy::SetAggro(bool Value)
-{
-	bAggro = Value;
+	return (GetActorLocation() - Other).Size() <= AggroRange;
 }
 
 void ABaseEnemy::SetAttacking(bool Value)
 {
 	bAttacking=Value;
-}
-
-void ABaseEnemy::SetInRange(bool Value)
-{
-	bInPlayerRange=Value;
 }
