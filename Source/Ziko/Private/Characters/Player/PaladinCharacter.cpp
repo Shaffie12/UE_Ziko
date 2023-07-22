@@ -6,8 +6,6 @@
 APaladinCharacter::APaladinCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	AppliedDamage=false;
-	IsBusy=false;
 }
 
 void APaladinCharacter::BeginPlay()
@@ -30,16 +28,15 @@ void APaladinCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 void APaladinCharacter::BaseAttack()
 {
 	Super::BaseAttack();
-	if(M_Attack_Basic && !IsBusy && CanDoAttack)
+	if(M_Attack_Basic && CanDoAttack && !IsAnimationBusy)
 	{
 		Aura->Deactivate();
-		IsBusy=true;
+		IsAnimationBusy=true;
 		Channelling=false;
 		AttackType = EAttackType::AT_Basic;
 		Cast<ASwordBasic>(GetPrimaryWeapon())->DamageArea->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		PlayAnimMontage(M_Attack_Basic);
-		GEngine->AddOnScreenDebugMessage(-1,1.0f,FColor::Magenta,FString::Printf(TEXT("ENERGY: %f"),EnergyVal));
-		
+		//GEngine->AddOnScreenDebugMessage(-1,1.0f,FColor::Magenta,FString::Printf(TEXT("ENERGY: %f"),EnergyVal));
 		
 	}
 	
@@ -48,9 +45,9 @@ void APaladinCharacter::BaseAttack()
 void APaladinCharacter::FirstAbilityAttack()
 {
 	Super::FirstAbilityAttack();
-	if(M_Attack_First && !IsBusy && CanDoAttack && !Channelling)
+	if(M_Attack_First && CanDoAttack && !IsAnimationBusy && !Channelling)
 	{
-		IsBusy=true;
+		IsAnimationBusy=true;
 		Channelling = true;
 		Aura->Activate();
 		AttackType= EAttackType::AT_Ability1;
@@ -64,9 +61,9 @@ void APaladinCharacter::SecondAbilityAttack()
 {
 	Super::SecondAbilityAttack();
 	
-	if(M_Attack_Second && !IsBusy && CanDoAttack)
+	if(M_Attack_Second && !IsAnimationBusy)
 	{
-		IsBusy=true;
+		IsAnimationBusy=true;
 		Channelling=false;
 		Aura->Deactivate();
 		AttackType= EAttackType::AT_Ability2;

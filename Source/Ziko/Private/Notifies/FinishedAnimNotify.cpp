@@ -8,17 +8,10 @@ void UFinishedAnimNotify::Notify(USkeletalMeshComponent* MeshComp, UAnimSequence
 {
 	if(MeshComp!= nullptr && MeshComp->GetOwner()!= nullptr)
 	{
-		APaladinCharacter* Player = Cast<APaladinCharacter>(MeshComp->GetOwner());
+		ABaseCharacter* Player = Cast<ABaseCharacter>(MeshComp->GetOwner());
 		if(Player!=nullptr)
 		{
-			Player->IsBusy =false;
-			if(Player->GetPrimaryWeapon()!=nullptr)
-			{
-				Cast<ASwordBasic>(Player->GetPrimaryWeapon())->DamageArea->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-				Player->AppliedDamage=false;
-			}
-				
-				
+			Player->IsAnimationBusy =false;
 		}
 			
 	}

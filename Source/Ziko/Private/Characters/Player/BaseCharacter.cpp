@@ -20,8 +20,7 @@ ABaseCharacter::ABaseCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	CanDoAttack = true;
-	
+	IsAnimationBusy=false;
 	
 	CameraSpringComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera Spring"));
 	CameraSpringComp->SetupAttachment(RootComponent);
@@ -61,13 +60,19 @@ void ABaseCharacter::BeginPlay()
 	check(Weapon);
 	Weapon->Pickup(this);
 	
-	GetWorld()->GetTimerManager().SetTimer(EnergyTickHandle,this,&ABaseCharacter::RegenerateEnergy,EnergyRegenerateTick,true);
 }
 
 // Called every frame
 void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if(EnergyVal!=MaxEnergy)
+	{
+		EnergyVal+= EnergyRegenerateAmountPerTick * DeltaTime;
+		EnergyLevelChanged.Execute(EnergyVal/MaxEnergy);
+	}
+		
+	
 	UpdateLookDir();
 }
 
@@ -168,41 +173,48 @@ void ABaseCharacter::BaseAttack()
 	if(!IsArmed())return;
 	const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
 	const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
-	if (EnergyVal < AttackEnergyCost)
+	if (EnergyVal < AttackEnergyCost || IsAnimationBusy)
 	{
-		CanDoAttack = false;
+		CanDoAttack=false;
 		return;
 	}
 	CanDoAttack=true;
 	EnergyVal -= AttackEnergyCost;
-	GetWorld()->GetTimerManager().PauseTimer(EnergyTickHandle);
-	EnergyLevelChanged.Execute(EnergyVal/MaxEnergy,false);
-	//GEngine->AddOnScreenDebugMessage(-1,1.0f,FColor::Magenta,FString::Printf(TEXT("ENERGY: %f"),EnergyVal));
+	
 }
 
 void ABaseCharacter::FirstAbilityAttack()
 {
 	if(!IsArmed())return;
 	const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
-	const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
-	if (EnergyVal < AttackEnergyCost) return;
+	const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Ability1);
+	if (EnergyVal < AttackEnergyCost || IsAnimationBusy)
+	{
+		CanDoAttack=false;
+		return;
+	}
+	CanDoAttack=true;
 	EnergyVal -= AttackEnergyCost;
 }
 
 void ABaseCharacter::SecondAbilityAttack()
 {
-	if(!IsArmed()) return;
-	
+	if(!IsArmed())return;
 	const ABaseWeapon* const HeldWeapon = GetPrimaryWeapon();
-	const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Basic);
-	if (EnergyVal < AttackEnergyCost) return;
+	const int8 AttackEnergyCost = HeldWeapon->GetAttackCost(EAttackType::AT_Ability2);
+	if (EnergyVal < AttackEnergyCost || IsAnimationBusy)
+	{
+		CanDoAttack=false;
+		return;
+	}
+	CanDoAttack=true;
 	EnergyVal -= AttackEnergyCost;
 }
 
 void ABaseCharacter::RegenerateEnergy()
 {
 	EnergyVal = FMath::Clamp(EnergyVal + EnergyRegenerateAmountPerTick, 0.f, MaxEnergy);
-	EnergyLevelChanged.Execute(EnergyVal/MaxEnergy,true);
+	EnergyLevelChanged.Execute(EnergyVal/MaxEnergy);
 	
 }
 

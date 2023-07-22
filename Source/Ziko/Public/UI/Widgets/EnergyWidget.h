@@ -16,21 +16,16 @@ class ZIKO_API UEnergyWidget : public UUserWidget
 	GENERATED_BODY()
 
 
-	void FillBar(float amount);
-	float DesiredFill;
-	float CurrentFill;
-	float Elapsed;
-	bool Filling;
+	
 	UPROPERTY()
 	ABaseCharacter* Player;
 	
 protected:
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
-	
 public:
 	virtual void NativeConstruct() override;
-	void SetFillAmount(float Amount,bool Regen);
+	void SetFillAmount(float Amount);
 	const float& GetFillAmount() const;
 	
 	

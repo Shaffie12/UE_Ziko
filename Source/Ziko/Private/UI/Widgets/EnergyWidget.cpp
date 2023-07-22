@@ -9,25 +9,15 @@
 void UEnergyWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	DesiredFill=0.f;
-	Filling=true;
 	Player = Cast<ABaseCharacter>(GetWorld()->GetFirstPlayerController()->GetCharacter());
 	if(Player)
 		Player->EnergyLevelChanged.BindUObject(this,&UEnergyWidget::SetFillAmount);
 	
 }
 
- void UEnergyWidget::SetFillAmount(float Amount, bool Regen) 
+ void UEnergyWidget::SetFillAmount(float Amount) 
 {
-	Filling = Regen;
-	CurrentFill = EnergyAmountBar->Percent;
-	DesiredFill = Amount;
-	Elapsed=0.f;
-	if(!Regen)
-	{
 		EnergyAmountBar->SetPercent(Amount);
-		GetWorld()->GetTimerManager().UnPauseTimer(Player->EnergyTickHandle);
-	}
 }
 
 const float& UEnergyWidget::GetFillAmount() const
@@ -38,12 +28,6 @@ const float& UEnergyWidget::GetFillAmount() const
 void UEnergyWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	if(EnergyAmountBar->Percent!=1.0f && Filling)
-	{
-		Elapsed+=InDeltaTime;
-		EnergyAmountBar->SetPercent( FMath::Lerp(CurrentFill,DesiredFill,Elapsed/1.0f));
-		
-	}
 	
 }
 

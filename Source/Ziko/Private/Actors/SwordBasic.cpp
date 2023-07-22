@@ -30,13 +30,13 @@ void ASwordBasic::ApplyDamageOnOverlap(UPrimitiveComponent* OverlappedComponent,
 	GEngine->AddOnScreenDebugMessage(-1,5.0f,FColor::Green,FString::Printf(TEXT("HIT: %s"),*OtherActor->GetName()));
 	if(GetOwner()!=nullptr)
 	{
-		APaladinCharacter* Player =  Cast<APaladinCharacter>(GetOwner());
-		if(!Player->AppliedDamage)
+		const APaladinCharacter* Player = Cast<APaladinCharacter>(GetOwner());
+		if(Player)
 		{
-			//check if other actor can be damaged
+			//check if other actor can be damaged - check if they were already hit and if invlnerable etc
 			UGameplayStatics::ApplyDamage(OtherActor,GetAttackDamage(Player->GetAttackState()),
 GetWorld()->GetFirstPlayerController(),this,UDamageType::StaticClass());
-			Player->AppliedDamage=true;
+			
 		}
 	}
 	

@@ -13,7 +13,7 @@ class UCameraComponent;
 class USpringArmComponent;
 
 DECLARE_DELEGATE_OneParam(FEnergyTickRateChanged,float);
-DECLARE_DELEGATE_TwoParams(FEnergyLevelChanged,float,bool);
+DECLARE_DELEGATE_OneParam(FEnergyLevelChanged,float);
 
 UCLASS()
 class ZIKO_API ABaseCharacter : public ACharacter
@@ -85,8 +85,9 @@ private:
 	void RegenerateEnergy();
 
 public:
-	FTimerHandle EnergyTickHandle;
-
+	UPROPERTY()
+	bool IsAnimationBusy; // to make sure animation is finished before allowing another attack to be started - set by anim notify
+	
 protected:
 	/*Abilities Component*/
 	UPROPERTY(EditAnywhere, Category = "Ability Components")
@@ -101,8 +102,9 @@ protected:
 	float EnergyVal;
 	EAttackType AttackType;
 	bool bIsAlive;
-	bool CanDoAttack;
 	FTimerHandle AttackTimer;
+	bool CanDoAttack;
+	
 	
 private:
 	/*Camera Components*/		

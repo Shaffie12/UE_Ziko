@@ -2,6 +2,7 @@
 #include "BaseWeapon.h"
 #include "MeleeOneHanded.generated.h"
 
+class UBoxComponent;
 UCLASS()
 class ZIKO_API AMeleeOneHanded : public ABaseWeapon
 {
@@ -15,6 +16,9 @@ public:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(EditDefaultsOnly)
+	UBoxComponent* DamageArea;
 	
 	
 };

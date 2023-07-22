@@ -21,10 +21,5 @@ protected:
 		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit);
 	virtual void FirstAbilityAttack() override;
 	virtual void SecondAbilityAttack() override;
-public:
-	UPROPERTY(EditDefaultsOnly)
-	UBoxComponent* DamageArea;
-	
-	
-	
+
 };

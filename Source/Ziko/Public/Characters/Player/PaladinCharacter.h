@@ -30,11 +30,5 @@ protected:
 
 	/*Perform character base attack*/
 	virtual void SecondAbilityAttack() override;
-
-public:
-	UPROPERTY()
-	bool IsBusy;
-	UPROPERTY()
-	bool AppliedDamage;
 	
 };
