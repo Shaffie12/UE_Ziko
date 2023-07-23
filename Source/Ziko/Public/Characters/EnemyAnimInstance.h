@@ -25,8 +25,11 @@ protected:
 	
 
 private:
-	void UpdateAnimAttributes();
+	void UpdateAnimAttributes(float& DT);
 	float GetRotationAngle(const FVector& Velocity) const;
+	int SelectAttackAnimationValue();
+	float AttackAnimationChangeWait = 1.5f;
+	float Elapsed =0.0f;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation Properties")
@@ -46,5 +49,13 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation Properties")
 	bool Stunned;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation Properties")
+	bool IsAttacking;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation Properties")
+	int AttackAnimValue;
+
+	
 	
 };

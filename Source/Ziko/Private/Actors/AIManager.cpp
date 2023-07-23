@@ -34,8 +34,8 @@ void AAIManager::Tick(float DeltaSeconds)
 	check(PlayerPawn);
 	const FVector PlayerPos = PlayerPawn->GetActorLocation();
 	BlackBoardComp->SetValueAsVector(PlayerPosKey, PlayerPos);
+	BlackBoardComp->SetValueAsBool(AggroKey,(Self->IsInAggroRange(PlayerPos)));
 	
-	BlackBoardComp->SetValueAsBool(AggroKey,(Self->IsInRange(PlayerPos)));
 	
 
 	

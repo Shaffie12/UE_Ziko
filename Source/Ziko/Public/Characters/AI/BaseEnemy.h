@@ -33,8 +33,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsAttacking() const;
 	UFUNCTION(BlueprintCallable)
-	bool IsInRange(const FVector Other) const;
-	
+	bool IsInAggroRange(const FVector Other) const;
+	UFUNCTION(BlueprintCallable)
 	void SetAttacking(bool Value);
 
 private:

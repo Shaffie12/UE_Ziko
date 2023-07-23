@@ -17,11 +17,14 @@ void UEnemyAnimInstance::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();
 	Aggro = false;
+	IsAttacking = false;
 }
 
 void UEnemyAnimInstance::NativeBeginPlay()
 {
 	Super::NativeBeginPlay();
+	Elapsed =0.f;
+	AttackAnimValue=0;
 	Self = Cast<ABaseEnemy>(TryGetPawnOwner());
 	check(Self)
 	Target = Cast<ABaseCharacter>(UGameplayStatics::GetPlayerPawn(this,0));
@@ -33,18 +36,25 @@ void UEnemyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
 	if(Self && Target)
-		UpdateAnimAttributes();
+		UpdateAnimAttributes(DeltaSeconds);
 }
 
 
-void UEnemyAnimInstance::UpdateAnimAttributes()
+void UEnemyAnimInstance::UpdateAnimAttributes(float& DT)
 {
 	const FVector& Velocity = Self->GetVelocity();
 
 	Speed = Velocity.Size();
 	RotationAngle = GetRotationAngle(Velocity);
-	Aggro = Self->IsInRange(Target->GetActorLocation());
-	
+	Aggro = Self->IsInAggroRange(Target->GetActorLocation());
+	IsAttacking = Self->IsAttacking();
+	if(IsAttacking && Elapsed>=AttackAnimationChangeWait)
+	{
+		AttackAnimValue = SelectAttackAnimationValue();
+		Elapsed=0.f;
+	}
+	else
+		Elapsed+= DT;
 	
 }
 
@@ -57,4 +67,10 @@ float UEnemyAnimInstance::GetRotationAngle(const FVector& Velocity) const
 	Sign<0? Angle = -Angle: Angle;
 	
 	return (Angle);
+}
+
+//will throw exception or not select values properly if != 3 animations are used in the animator
+int UEnemyAnimInstance::SelectAttackAnimationValue()
+{
+	return FMath::RandRange(0,2);
 }

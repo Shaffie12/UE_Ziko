@@ -12,7 +12,7 @@ class SpawnWave : public FPendingLatentAction
 	float Timer;
 
 public:
-	SpawnWave(AWaveSpawnManager* Mgr, int& spawns, float& DeltaTime): Mgr(Mgr),DT(DeltaTime), EnemiesToSpawn(spawns), Enemies_Spawned(0), Timer(0.f){};
+	SpawnWave(AWaveSpawnManager* Mgr, int& Spawns, float& DeltaTime): Mgr(Mgr),DT(DeltaTime), EnemiesToSpawn(Spawns), Enemies_Spawned(0), Timer(0.f){};
 	
 	virtual void UpdateOperation(FLatentResponse& Response) override;
 	

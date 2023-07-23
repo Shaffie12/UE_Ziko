@@ -36,8 +36,6 @@ void APaladinCharacter::BaseAttack()
 		AttackType = EAttackType::AT_Basic;
 		Cast<ASwordBasic>(GetPrimaryWeapon())->DamageArea->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		PlayAnimMontage(M_Attack_Basic);
-		//GEngine->AddOnScreenDebugMessage(-1,1.0f,FColor::Magenta,FString::Printf(TEXT("ENERGY: %f"),EnergyVal));
-		
 	}
 	
 }
@@ -52,8 +50,6 @@ void APaladinCharacter::FirstAbilityAttack()
 		Aura->Activate();
 		AttackType= EAttackType::AT_Ability1;
 		PlayAnimMontage(M_Attack_First);
-		//GetWorld()->GetLatentActionManager().AddNewAction(this,1,
-			//new CompileDamage(this));
 	}
 }
 

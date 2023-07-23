@@ -62,7 +62,7 @@ bool ABaseEnemy::IsAttacking() const
 	return bAttacking;
 }
 
-bool ABaseEnemy::IsInRange(const FVector Other) const
+bool ABaseEnemy::IsInAggroRange(const FVector Other) const
 {
 	return (GetActorLocation() - Other).Size() <= AggroRange;
 }

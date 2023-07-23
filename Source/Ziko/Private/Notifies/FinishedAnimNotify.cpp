@@ -12,6 +12,10 @@ void UFinishedAnimNotify::Notify(USkeletalMeshComponent* MeshComp, UAnimSequence
 		if(Player!=nullptr)
 		{
 			Player->IsAnimationBusy =false;
+			const AMeleeOneHanded* Weapon  = Cast<AMeleeOneHanded>(Player->GetPrimaryWeapon());
+			if(Weapon)
+				Weapon->DamageArea->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+				
 		}
 			
 	}

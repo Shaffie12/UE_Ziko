@@ -37,5 +37,6 @@ private:
 	FName PlayerPosKey;
 	UPROPERTY(EditAnywhere,Category="BB Keys")
 	FName AggroKey;
+	
 };
 
