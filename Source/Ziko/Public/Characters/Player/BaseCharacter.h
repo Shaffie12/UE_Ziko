@@ -120,7 +120,7 @@ private:
 	ABaseWeapon* Weapon;
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class ABaseWeapon> StartWeapon;
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category="Tags")
 	FName WeaponBoneToHide;
 	
 	UPROPERTY()

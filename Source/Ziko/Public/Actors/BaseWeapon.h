@@ -48,7 +48,7 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* MeshComp;
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(BlueprintReadOnly,EditDefaultsOnly)
 	USphereComponent* InteractArea;
 	
 private:

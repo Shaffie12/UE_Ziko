@@ -11,11 +11,13 @@ ABaseWeapon::ABaseWeapon()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	
-	InteractArea = CreateDefaultSubobject<USphereComponent>(FName("Trigger"));
-	InteractArea -> InitSphereRadius(80.0f);
-	
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	SetRootComponent(MeshComp);
+
+	InteractArea = CreateDefaultSubobject<USphereComponent>(FName("TriggerInteract"));
+	InteractArea -> OnComponentBeginOverlap.AddDynamic(this,&ABaseWeapon::OnOverlapStarted);
+	InteractArea -> OnComponentEndOverlap.AddDynamic(this,&ABaseWeapon::OnOverlapEnded);
+	
 	
 	BaseAttackCost = 0;
 	FirstAbilityAttackCost = 0;
@@ -30,10 +32,10 @@ ABaseWeapon::ABaseWeapon()
 void ABaseWeapon::BeginPlay()
 {
 	Super::BeginPlay();
+	InteractArea->AttachToComponent(MeshComp,FAttachmentTransformRules::KeepRelativeTransform);
+	InteractArea->InitSphereRadius(80.0f);
+	InteractArea->SetRelativeLocation(FVector(0,0,MeshComp->Bounds.BoxExtent.Z/2));
 	
-	InteractArea-> SetRelativeLocation(FVector(0,0,MeshComp->Bounds.BoxExtent.Z/2));
-	InteractArea -> OnComponentBeginOverlap.AddDynamic(this,&ABaseWeapon::OnOverlapStarted);
-	InteractArea -> OnComponentEndOverlap.AddDynamic(this,&ABaseWeapon::OnOverlapEnded);
 }
 
 // Called every frame

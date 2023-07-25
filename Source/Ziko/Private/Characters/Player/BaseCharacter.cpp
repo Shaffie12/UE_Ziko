@@ -141,8 +141,9 @@ void ABaseCharacter::SetPrimaryWeapon(ABaseWeapon* NewWeapon)
 	
 	Weapon=NewWeapon;
 	Weapon->SetActorLocation(FVector(0.f));
-	Weapon->AttachToComponent(GetMesh() ,FAttachmentTransformRules::KeepRelativeTransform,WeaponBoneToHide);
+	Weapon->AttachToComponent(GetMesh() ,FAttachmentTransformRules::SnapToTargetIncludingScale,WeaponAttachmentSocketName);
 	Weapon->SetOwner(this);
+	
 }
 
 AActor* ABaseCharacter::GetClosestActorInRange() const
@@ -217,7 +218,6 @@ void ABaseCharacter::RegenerateEnergy()
 	EnergyLevelChanged.Execute(EnergyVal/MaxEnergy);
 	
 }
-
 
 bool ABaseCharacter::GetMouseLocation(FVector_NetQuantize& MousePos)
 {

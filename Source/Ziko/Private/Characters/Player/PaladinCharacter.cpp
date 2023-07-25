@@ -34,8 +34,13 @@ void APaladinCharacter::BaseAttack()
 		IsAnimationBusy=true;
 		Channelling=false;
 		AttackType = EAttackType::AT_Basic;
-		Cast<ASwordBasic>(GetPrimaryWeapon())->DamageArea->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-		PlayAnimMontage(M_Attack_Basic);
+		const ASwordBasic* PrimaryWeapon = Cast<ASwordBasic>(GetPrimaryWeapon());
+		if(PrimaryWeapon)
+		{
+			PrimaryWeapon->DamageArea->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+			PlayAnimMontage(M_Attack_Basic);
+		}
+		
 	}
 	
 }
