@@ -20,6 +20,9 @@ protected:
 	virtual void BeginPlay() override;
 	
 	virtual void OnDestroy();
+	UFUNCTION()
+	virtual void OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,
+		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit);
 
 public:	
 	// Called every frame
@@ -45,15 +48,11 @@ protected:
 	float AggroRange = 1000.0f;
 	bool bAttacking;
 	bool bAggro;
+	bool bWasHit;
 
 public:
 	static FOnDestroySignature EnemyDead;
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Animations")
 	UAnimMontage* DeathAnimation;
-	
-	
-	
-	
-	
 	
 };

@@ -3,6 +3,7 @@
 #include "Characters/Player/PaladinCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine.h"
+#include "Characters/AI/BaseEnemy.h"
 
 ASwordBasic::ASwordBasic()
 {
@@ -27,21 +28,25 @@ void ASwordBasic::Tick(float DeltaSeconds)
 void ASwordBasic::ApplyDamageOnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
-	GEngine->AddOnScreenDebugMessage(-1,5.0f,FColor::Green,FString::Printf(TEXT("HIT: %s"),*OtherActor->GetName()));
 	if(GetOwner()!=nullptr)
 	{
 		const APaladinCharacter* Player = Cast<APaladinCharacter>(GetOwner());
+		const ABaseEnemy* Enemy = Cast<ABaseEnemy>(OtherActor);
 		if(Player)
 		{
-			//check if other actor can be damaged - check if they were already hit and if invlnerable etc
-			UGameplayStatics::ApplyDamage(OtherActor,GetAttackDamage(Player->GetAttackState()),
-GetWorld()->GetFirstPlayerController(),this,UDamageType::StaticClass());
+			if(Enemy)
+			{
+				GEngine->AddOnScreenDebugMessage(-1,5.0f,FColor::Green,FString::Printf(TEXT("HIT: %s"),*OtherActor->GetName()));
+				UGameplayStatics::ApplyDamage(OtherActor,GetAttackDamage(Player->GetAttackState()),
+		GetWorld()->GetFirstPlayerController(),this,UDamageType::StaticClass());
+				
+			}
+			
 			
 		}
 	}
 	
 }
-
 
 void ASwordBasic::BaseAttack(){}
 

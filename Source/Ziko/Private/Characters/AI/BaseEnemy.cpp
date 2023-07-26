@@ -3,6 +3,8 @@
 
 #include "Characters/AI/BaseEnemy.h"
 
+#include "Actors/BaseWeapon.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/HealthComponent.h"
 FOnDestroySignature ABaseEnemy::EnemyDead; 
 // Sets default values
@@ -13,6 +15,8 @@ ABaseEnemy::ABaseEnemy()
 	HealthComp = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Comp"));
 	bAggro=false;
 	bAttacking=false;
+	bWasHit=false;
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ABaseEnemy::OnHit);
 }
 
 // Called when the game starts or when spawned
@@ -26,8 +30,8 @@ void ABaseEnemy::OnDestroy()
 {
 	PlayAnimMontage(DeathAnimation);
 	EnemyDead.Execute();
-	
 }
+
 
 // Called every frame
 void ABaseEnemy::Tick(float DeltaTime)
@@ -53,6 +57,21 @@ float ABaseEnemy::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent
 	}
 	return Damage;
 	//what is destroying it?
+}
+
+void ABaseEnemy::OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,
+		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
+{
+	const ABaseWeapon* HitByWeapon = Cast<ABaseWeapon>(OtherActor);
+	if(HitByWeapon)
+	{
+		FVector LaunchDirection = OtherActor->GetActorLocation() - GetActorLocation();
+		LaunchDirection.Normalize();
+		LaunchCharacter(LaunchDirection *-1000.0f,true,true);
+	}
+	
+	
+	
 }
 
 bool ABaseEnemy::IsAlive() const { return HealthComp->IsAlive(); }

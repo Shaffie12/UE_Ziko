@@ -100,9 +100,7 @@ void ABaseWeapon::OnOverlapStarted_Implementation(UPrimitiveComponent* Overlappe
 {
 	if(Cast<ABaseCharacter>(OtherActor))
 	{
-		
 		Cast<ABaseCharacter>(OtherActor)->AddInteractableActorInRange(this);
-		
 	}
 }
 
