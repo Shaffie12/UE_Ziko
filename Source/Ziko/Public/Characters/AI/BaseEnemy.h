@@ -21,8 +21,7 @@ protected:
 	
 	virtual void OnDestroy();
 	UFUNCTION()
-	virtual void OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,
-		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit);
+	virtual void OnHit(AActor* DamageCauser);
 
 public:	
 	// Called every frame
@@ -39,6 +38,10 @@ public:
 	bool IsInAggroRange(const FVector Other) const;
 	UFUNCTION(BlueprintCallable)
 	void SetAttacking(bool Value);
+	UFUNCTION(BlueprintCallable)
+	bool GetIsMobile();
+	UFUNCTION(BlueprintCallable)
+	void SetIsMobile(bool Value);
 
 private:
 	UPROPERTY(EditDefaultsOnly)
@@ -49,6 +52,7 @@ protected:
 	bool bAttacking;
 	bool bAggro;
 	bool bWasHit;
+	bool bIsMobile;
 
 public:
 	static FOnDestroySignature EnemyDead;

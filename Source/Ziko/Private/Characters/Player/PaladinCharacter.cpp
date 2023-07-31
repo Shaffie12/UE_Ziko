@@ -36,10 +36,7 @@ void APaladinCharacter::BaseAttack()
 		AttackType = EAttackType::AT_Basic;
 		const ASwordBasic* PrimaryWeapon = Cast<ASwordBasic>(GetPrimaryWeapon());
 		if(PrimaryWeapon)
-		{
-			PrimaryWeapon->DamageArea->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 			PlayAnimMontage(M_Attack_Basic);
-		}
 		
 	}
 	

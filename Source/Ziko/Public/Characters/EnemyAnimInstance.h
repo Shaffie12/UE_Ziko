@@ -55,7 +55,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation Properties")
 	int AttackAnimValue;
-
 	
 	
 };

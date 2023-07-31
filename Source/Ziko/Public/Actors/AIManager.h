@@ -37,6 +37,9 @@ private:
 	FName PlayerPosKey;
 	UPROPERTY(EditAnywhere,Category="BB Keys")
 	FName AggroKey;
-	
+	UPROPERTY(EditAnywhere, Category= "BB Keys")
+	FName ImmobileTimerKey;
+	UPROPERTY(EditAnywhere,Category="BB Keys")
+	FName IsMobileKey;
 };
 

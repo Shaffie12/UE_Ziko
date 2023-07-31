@@ -25,6 +25,8 @@ void AAIManager::BeginPlay()
 	
 	BlackBoardComp = GetBlackboardComponent();
 	check(BlackBoardComp);
+
+	BlackBoardComp->SetValueAsFloat(ImmobileTimerKey,1.0f);
 }
 
 void AAIManager::Tick(float DeltaSeconds)
@@ -35,6 +37,7 @@ void AAIManager::Tick(float DeltaSeconds)
 	const FVector PlayerPos = PlayerPawn->GetActorLocation();
 	BlackBoardComp->SetValueAsVector(PlayerPosKey, PlayerPos);
 	BlackBoardComp->SetValueAsBool(AggroKey,(Self->IsInAggroRange(PlayerPos)));
+	BlackBoardComp->SetValueAsBool(IsMobileKey, Self->GetIsMobile());
 	
 	
 
