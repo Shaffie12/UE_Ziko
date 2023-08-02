@@ -42,6 +42,8 @@ public:
 	bool GetIsMobile();
 	UFUNCTION(BlueprintCallable)
 	void SetIsMobile(bool Value);
+	UFUNCTION(BlueprintCallable)
+	void SetIsStunned(bool Value);
 
 private:
 	UPROPERTY(EditDefaultsOnly)
@@ -53,10 +55,13 @@ protected:
 	bool bAggro;
 	bool bWasHit;
 	bool bIsMobile;
+	bool bIsStunned;
 
 public:
 	static FOnDestroySignature EnemyDead;
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Animations")
 	UAnimMontage* DeathAnimation;
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Animations")
+	UAnimMontage*  StunnedAnimation; 
 	
 };

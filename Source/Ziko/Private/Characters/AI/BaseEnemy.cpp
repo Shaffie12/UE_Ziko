@@ -16,6 +16,7 @@ ABaseEnemy::ABaseEnemy()
 	bAttacking=false;
 	bWasHit=false;
 	bIsMobile=true;
+	bIsStunned=false;
 }
 
 // Called when the game starts or when spawned
@@ -62,12 +63,12 @@ float ABaseEnemy::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent
 void ABaseEnemy::OnHit(AActor* DamageCauser)
 {
 	bIsMobile=false;
+	bIsStunned =true;
 	FVector LaunchDirection = DamageCauser->GetActorLocation() - GetActorLocation(); //may not always be safe
 	LaunchDirection.Normalize();
 	LaunchCharacter(LaunchDirection *-3500.0f,true,true);
-	
+	PlayAnimMontage(StunnedAnimation);
 }
-
 
 bool ABaseEnemy::IsAlive() const { return HealthComp->IsAlive(); }
 
@@ -94,4 +95,9 @@ bool ABaseEnemy::GetIsMobile()
 void ABaseEnemy::SetIsMobile(bool Value)
 {
 	bIsMobile=Value;
+}
+
+void ABaseEnemy::SetIsStunned(bool Value)
+{
+	bIsStunned = Value;
 }
